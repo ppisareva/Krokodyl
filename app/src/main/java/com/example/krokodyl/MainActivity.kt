@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
-import com.example.krokodyl.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,8 +12,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // set up back button via navigation controller
-        val binding : ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
-
+//
         val navController = Navigation.findNavController(this, R.id.myNavHostFragment)
         NavigationUI.setupActionBarWithNavController(this, navController)
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -30,10 +31,11 @@ class CategoryFragment : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-       val binding : FragmentCategoryBinding = FragmentCategoryBinding.bind(inflater.inflate(R.layout.fragment_category_list, container, false))
+       val binding : FragmentCategoryBinding = DataBindingUtil.inflate(
+           inflater, R.layout.fragment_category, container, false)
         val view = binding.root
 
-        // Set the adapter
+        // Set the adapter todo binding
         if (view is RecyclerView) {
             with(view) {
                 layoutManager =  GridLayoutManager(context, 2)
@@ -50,8 +52,15 @@ class CategoryFragment : Fragment(){
             }
     }
         viewModel.onCategoryChooseEvent.observe(this, taskObserver)
-        viewModel.startNavigationEvent(DummyContent.DummyItem(1,"",""))
+
         return view
+    }
+// delete
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Navigation.findNavController(view)
+            .navigate(CategoryFragmentDirections.
+                actionCategoryFragmentToGameFragment(viewModel.categoryID.value!!))
     }
 
     fun navigateToGameFragment(){

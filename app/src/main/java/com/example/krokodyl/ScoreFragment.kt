@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
@@ -22,8 +23,9 @@ class ScoreFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding : ScoreFragmentBinding = ScoreFragmentBinding.bind(inflater.inflate(R.layout.game_fragment, container, false))
-        return binding.root    }
+        val binding : ScoreFragmentBinding = DataBindingUtil.inflate(
+            inflater, R.layout.score_fragment, container, false)
+            return binding.root    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
