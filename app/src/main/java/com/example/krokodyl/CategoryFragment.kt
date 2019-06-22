@@ -1,7 +1,6 @@
 package com.example.krokodyl
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,49 +10,53 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.krokodyl.databinding.FragmentCategoryBinding
 import com.example.krokodyl.dummy.DummyContent
-import com.example.krokodyl.dummy.DummyContent.DummyItem
 
-/**
- * A fragment representing a list of Items.
- * Activities containing this fragment MUST implement the
- * [CategoryFragment.OnListFragmentInteractionListener] interface.
- */
-class CategoryFragment : Fragment(), OnListFragmentInteractionListener {
+
+class CategoryFragment : Fragment(){
 
     lateinit var viewModel: CategoryViewModel
+    lateinit var taskObserver : Observer<Boolean>
+    lateinit var binding : FragmentCategoryBinding
 
-    override fun onListFragmentInteraction(item: DummyItem?){
-
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(CategoryViewModel::class.java)
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_category_list, container, false)
+       val binding : FragmentCategoryBinding = FragmentCategoryBinding.bind(inflater.inflate(R.layout.fragment_category_list, container, false))
+        val view = binding.root
 
         // Set the adapter
         if (view is RecyclerView) {
             with(view) {
                 layoutManager =  GridLayoutManager(context, 2)
-                adapter = MyCategoryRecyclerViewAdapter(DummyContent.ITEMS, viewModel)
+                adapter = MyCategoryRecyclerViewAdapter(DummyContent.ITEMS)
             }
         }
 
         // Create the observer which updates the UI.
-        val taskObserver = Observer<Int> { categoryId ->
+        taskObserver = Observer<Boolean> { isCategoryChosen ->
             // Update the UI, start navigation to another fragment.
-            Log.i("Categoryftagment", "start navigation with id $categoryId")
-            if(categoryId>0)     Navigation.findNavController(view!!).navigate(R.id.action_categoryFragment_to_gameFragment)
+            if(isCategoryChosen){
+                navigateToGameFragment()
+                viewModel.navigationFinished()
+            }
     }
-        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
-        viewModel.categoryID.observe(this, taskObserver)
+        viewModel.onCategoryChooseEvent.observe(this, taskObserver)
+        viewModel.startNavigationEvent(DummyContent.DummyItem(1,"",""))
         return view
     }
 
+    fun navigateToGameFragment(){
+        Navigation.findNavController(binding.root)
+            .navigate(CategoryFragmentDirections.
+                actionCategoryFragmentToGameFragment(viewModel.categoryID.value!!))
+    }
 }

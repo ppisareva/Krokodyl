@@ -6,12 +6,22 @@
 
     <fragment android:id="@+id/categoryFragment" android:name="com.example.krokodyl.CategoryFragment"
               android:label="fragment_category_list" tools:layout="@layout/fragment_category_list">
+
         <action android:id="@+id/action_categoryFragment_to_gameFragment" app:destination="@id/gameFragment"/>
+
     </fragment>
     <fragment android:id="@+id/gameFragment" android:name="com.example.krokodyl.GameFragment"
               android:label="game_fragment" tools:layout="@layout/game_fragment">
-        <action android:id="@+id/action_gameFragment_to_scoreFragment" app:destination="@id/scoreFragment"/>
+        <argument
+                android:name="categoryID"
+                app:argType="integer" />
+
+        <action android:id="@+id/action_gameFragment_to_scoreFragment" app:destination="@id/scoreFragment"
+                app:popUpTo="@+id/categoryFragment" app:launchSingleTop="true"/>
     </fragment>
     <fragment android:id="@+id/scoreFragment" android:name="com.example.krokodyl.ScoreFragment"
-              android:label="score_fragment" tools:layout="@layout/score_fragment"/>
+              android:label="score_fragment" tools:layout="@layout/score_fragment">
+        <action android:id="@+id/action_scoreFragment_to_gameFragment" app:destination="@id/gameFragment"
+                app:popUpTo="@+id/categoryFragment"/>
+    </fragment>
 </navigation>

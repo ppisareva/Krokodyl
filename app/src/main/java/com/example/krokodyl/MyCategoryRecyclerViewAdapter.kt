@@ -16,8 +16,7 @@ import kotlinx.android.synthetic.main.fragment_category.view.*
  * TODO: Replace the implementation with code for your data type.
  */
 class MyCategoryRecyclerViewAdapter(
-    private val mValues: List<DummyItem>,
-    private val mViewModel: CategoryViewModel?
+    private val mValues: List<DummyItem>
 ) : RecyclerView.Adapter<MyCategoryRecyclerViewAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
@@ -29,7 +28,6 @@ class MyCategoryRecyclerViewAdapter(
             // one) that an item has been selected.
             Log.i("adapter", "on click")
 
-            mViewModel?.onCategoryClick(item)
         }
     }
 

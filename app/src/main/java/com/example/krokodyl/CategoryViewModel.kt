@@ -9,9 +9,22 @@ class CategoryViewModel : ViewModel(){
 
     var categoryID = MutableLiveData<Int> ()
 
-    fun onCategoryClick(item: DummyContent.DummyItem) {
+    var onCategoryChooseEvent = MutableLiveData<Boolean>()
+
+    init {
+        onCategoryChooseEvent.value = false
+        categoryID.value = -1
+    }
+
+
+    fun startNavigationEvent(item: DummyContent.DummyItem) {
         categoryID.value = item.id
+        onCategoryChooseEvent.value = true
 
     }
+    fun navigationFinished(){
+        onCategoryChooseEvent.value = false
+    }
+
 
 }

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+    </data>
 <androidx.recyclerview.widget.RecyclerView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/category_rv"
         android:name="com.example.krokodyl.CategoryFragment"
@@ -10,3 +12,4 @@
         android:layout_marginRight="16dp"
         tools:context=".CategoryFragment"
         tools:listitem="@layout/fragment_category"/>
+</layout>
