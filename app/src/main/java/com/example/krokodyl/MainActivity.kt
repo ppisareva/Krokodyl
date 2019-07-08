@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // set up back button via navigation controller
-//
+
         val navController = Navigation.findNavController(this, R.id.myNavHostFragment)
         NavigationUI.setupActionBarWithNavController(this, navController)
 

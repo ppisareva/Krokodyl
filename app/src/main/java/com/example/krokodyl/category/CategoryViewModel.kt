@@ -1,4 +1,4 @@
-package com.example.krokodyl
+package com.example.krokodyl.category
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

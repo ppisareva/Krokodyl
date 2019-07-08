@@ -1,4 +1,4 @@
-package com.example.krokodyl
+package com.example.krokodyl.category
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.krokodyl.R
 import com.example.krokodyl.databinding.FragmentCategoryBinding
 import com.example.krokodyl.dummy.DummyContent
 
@@ -59,13 +60,19 @@ class CategoryFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Navigation.findNavController(view)
-            .navigate(CategoryFragmentDirections.
-                actionCategoryFragmentToGameFragment(viewModel.categoryID.value!!))
+            .navigate(
+                CategoryFragmentDirections.actionCategoryFragmentToGameFragment(
+                    viewModel.categoryID.value!!
+                )
+            )
     }
 
     fun navigateToGameFragment(){
-        Navigation.findNavController(binding.root)
-            .navigate(CategoryFragmentDirections.
-                actionCategoryFragmentToGameFragment(viewModel.categoryID.value!!))
+        Navigation.findNavController(view!!)
+            .navigate(
+                CategoryFragmentDirections.actionCategoryFragmentToGameFragment(
+                    viewModel.categoryID.value!!
+                )
+            )
     }
 }

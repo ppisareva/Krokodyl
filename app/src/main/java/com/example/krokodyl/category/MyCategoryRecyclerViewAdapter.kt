@@ -1,4 +1,4 @@
-package com.example.krokodyl
+package com.example.krokodyl.category
 
 
 import android.util.Log
@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.krokodyl.R
 import com.example.krokodyl.dummy.DummyContent.DummyItem
 import kotlinx.android.synthetic.main.fragment_category.view.*
 
