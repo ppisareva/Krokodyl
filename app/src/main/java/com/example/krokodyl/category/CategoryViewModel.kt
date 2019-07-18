@@ -2,28 +2,30 @@ package com.example.krokodyl.category
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.krokodyl.dummy.DummyContent
+import com.example.krokodyl.model.Category
 
 class CategoryViewModel : ViewModel(){
     // Create a LiveData with a Boolean
 
-    var categoryID = MutableLiveData<Int> ()
+    var currentCategory = MutableLiveData<Int> ()
+    val categoriesList : MutableLiveData<List<Category>> = MutableLiveData()
 
-    var onCategoryChooseEvent = MutableLiveData<Boolean>()
+
+
+
 
     init {
-        onCategoryChooseEvent.value = false
-        categoryID.value = -1
-    }
-
-
-    fun startNavigationEvent(item: DummyContent.DummyItem) {
-        categoryID.value = item.id
-        onCategoryChooseEvent.value = true
+        categoriesList.value = listOf<Category>(Category(1, "ololo", ""))
 
     }
+
+
+    fun eventStartGame(categoryId: Int) {
+       currentCategory.value = categoryId
+    }
+
     fun navigationFinished(){
-        onCategoryChooseEvent.value = false
+       currentCategory.value = null
     }
 
 

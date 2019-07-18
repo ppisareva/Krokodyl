@@ -2,6 +2,7 @@ package com.example.krokodyl.game
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,11 +20,12 @@ class GameFragment : Fragment()  {
     private lateinit var viewModel: GameViewModel
     private lateinit var viewModelFactory: GameViewModelFactory
     private lateinit var  binding : GameFragmentBinding
-    private var categoryId :Int = 0
+    private var categoryId :Int = 1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding  = DataBindingUtil.inflate(inflater, R.layout.game_fragment, container, false)
         categoryId = GameFragmentArgs.fromBundle(arguments!!).categoryID
+        Log.i("category Id ---", categoryId.toString())
         return binding.root
     }
 
