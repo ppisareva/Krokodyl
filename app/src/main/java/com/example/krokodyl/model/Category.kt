@@ -1,12 +1,20 @@
 package com.example.krokodyl.model
 
-/**
- * Helper class for providing sample content for user interfaces created by
- * Android template wizards.
- *
- * TODO: Replace all uses of this class before publishing your app.
- */
-data class Category(var categoryId:Int, var categoryTitle: String, var categoryImage:String) {
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "category_table")
+data class Category
+    ( @PrimaryKey(autoGenerate = false)
+      var categoryId:String="",
+      @ColumnInfo(name = "category_title")
+      var categoryTitle: String = "",
+      @ColumnInfo(name = "category_image")
+      var categoryImage:String = "",
+      @ColumnInfo(name = "words_list")
+      var wordsList:List<String> = listOf())
+{
 
 
 

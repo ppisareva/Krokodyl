@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.example.krokodyl.R
 import com.example.krokodyl.databinding.GameFragmentBinding
+import com.example.krokodyl.model.KrokodylDatabase
 
 
 class GameFragment : Fragment()  {
@@ -20,22 +21,29 @@ class GameFragment : Fragment()  {
     private lateinit var viewModel: GameViewModel
     private lateinit var viewModelFactory: GameViewModelFactory
     private lateinit var  binding : GameFragmentBinding
-    private var categoryId :Int = 1
+    private var categoryId :String = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        // binding data
         binding  = DataBindingUtil.inflate(inflater, R.layout.game_fragment, container, false)
+        // get category selected from category fragment
         categoryId = GameFragmentArgs.fromBundle(arguments!!).categoryID
-        Log.i("category Id ---", categoryId.toString())
+        Log.i("category Id ---", categoryId)
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModelFactory = GameViewModelFactory(categoryId)
+        var  application = checkNotNull(this.activity).application
+        val database = KrokodylDatabase.getInstance(application).categoryDatabaseDao
+
+        viewModelFactory = GameViewModelFactory(categoryId,database, application )
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
         binding.gameViewModel = viewModel
         binding.lifecycleOwner = this
+
+
 
         viewModel.eventGameFinish.observe(this, Observer { isFinished ->
             if(isFinished){

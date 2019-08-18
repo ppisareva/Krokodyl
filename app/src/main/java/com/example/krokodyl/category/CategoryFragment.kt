@@ -12,11 +12,13 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.example.krokodyl.R
 import com.example.krokodyl.databinding.CategoryFragmentBinding
+import com.example.krokodyl.model.KrokodylDatabase
 
 
 class CategoryFragment : Fragment() {
 
     lateinit var viewModel: CategoryViewModel
+    lateinit var viewModelFactory: CategoryViewModelFactory
     lateinit var binding : CategoryFragmentBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -26,14 +28,19 @@ class CategoryFragment : Fragment() {
             container,
             false
         )
-        viewModel = ViewModelProviders.of(this).get(CategoryViewModel::class.java)
+        var  application = checkNotNull(this.activity).application
+        val database = KrokodylDatabase.getInstance(application).categoryDatabaseDao
+        viewModelFactory = CategoryViewModelFactory(database, application)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(CategoryViewModel::class.java)
         val adapter = CategoryRecyclerViewAdapter(OnCategoryClickListener { categoryId ->
-            Log.i("Click made" , categoryId.toString())
+            Log.i("Click made" , categoryId)
             viewModel.eventStartGame(categoryId)
         })
         binding.categoryRv.adapter = adapter
+        binding.categoryViewModel = viewModel
         viewModel.categoriesList.observe(this, Observer { categoryList ->
             adapter.data = categoryList
+            Log.i("List", categoryList.size.toString())
         })
 
         viewModel.currentCategory.observe(this, Observer { categoryId ->

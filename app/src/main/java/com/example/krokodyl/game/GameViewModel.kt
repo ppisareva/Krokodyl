@@ -1,31 +1,61 @@
 package com.example.krokodyl.game
 
+import android.app.Application
 import android.os.CountDownTimer
 import android.text.format.DateUtils
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import com.example.krokodyl.Repository.Repository
+import com.example.krokodyl.model.DatabaseDao
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
-class GameViewModel(categoryId : Int) : ViewModel() {
+class GameViewModel(categoryId : String, val database: DatabaseDao,
+                    application: Application) : AndroidViewModel(application){
 
-     val eventGameFinish= MutableLiveData<Boolean>()
-     private var currentTimeSeconds = MutableLiveData<Long>()
-     private var categoryId: Int
-     private var currentWordIndex:Int = 0
+    val eventGameFinish= MutableLiveData<Boolean>()
+    private var currentTimeSeconds = MutableLiveData<Long>()
+    var score  = MutableLiveData<Int>()
+    var currentWord = MutableLiveData<String>()
+
+    private var index = 0
+    lateinit var  wordList : List<String>
+    private lateinit var timer : CountDownTimer
+
+    private var viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main +  viewModelJob)
+    var repository: Repository = Repository(database, uiScope)
+
+
+
+
+
     // changing data to data format to bind it in the xml file
      val currentTimeString = Transformations.map(currentTimeSeconds) { time ->
         DateUtils.formatElapsedTime(time)
     }
 
-    private lateinit var wordList: MutableList<String>
-    private  var timer : CountDownTimer
-    var score  = MutableLiveData<Int>()
-     var currentWord = MutableLiveData<String>()
-
-
     init {
-        this@GameViewModel.categoryId = categoryId
-        startGame(categoryId)
+        getWordList(categoryId)
+        startTimer()
+
+    }
+
+
+     fun getWordList(categoryId: String) {
+        uiScope.launch(Dispatchers.Main) {
+            wordList = repository.getCategoryByID(categoryId).wordsList
+            startGame()
+        }
+    }
+
+
+
+
+    private fun startTimer(){
         timer = object : CountDownTimer(COUNTDOWN_TIME, ONE_SECOND) {
             override fun onTick(millisUntilFinished: Long) {
                 currentTimeSeconds.value = millisUntilFinished/ ONE_SECOND
@@ -37,56 +67,37 @@ class GameViewModel(categoryId : Int) : ViewModel() {
         timer.start()
     }
 
-    private fun startGame(id:Int){
-        resetList(id)
+
+
+
+    private fun startGame(){
         score.value = 0
         eventGameFinish.value = false
-        currentWord.value = wordList[currentWordIndex]
+        wordList.shuffled()
+        currentWord.value = wordList.get(index++)
+
     }
 
-  fun onNextWord(){
 
-      if(currentWordIndex<wordList.size-1){
-          currentWord.value = wordList[++currentWordIndex]
-          score.value = score.value!!.plus(1)
+    fun onNextWord(){
+        score.value = score.value!!.plus(1)
+      if(wordList.size>index){
+          currentWord.value=wordList.get(index++)
       } else {
-          resetList(0)
+          resetList()
       }
 
     }
    fun onSkipWord(){
-        if(currentWordIndex<wordList.size-1) currentWord.value = wordList[++currentWordIndex]
-        else resetList(0)
+        if(wordList.size>index)
+            currentWord.value = wordList[index++]
+        else resetList()
     }
 
 
-    private fun resetList(id:Int) {
-        currentWordIndex = 0
-        wordList = mutableListOf(
-            "queen",
-            "hospital",
-            "basketball",
-            "cat",
-            "change",
-            "snail",
-            "soup",
-            "calendar",
-            "sad",
-            "desk",
-            "guitar",
-            "home",
-            "railway",
-            "zebra",
-            "jelly",
-            "car",
-            "crow",
-            "trade",
-            "bag",
-            "roll",
-            "bubble"
-        )
-        // randomly mixed words
-        wordList.shuffle()
+    private fun resetList() {
+        index = 0
+        wordList.shuffled()
     }
 
     fun gameFinished() {

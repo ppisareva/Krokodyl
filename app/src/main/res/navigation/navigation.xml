@@ -14,7 +14,7 @@
               android:label="game_fragment" tools:layout="@layout/game_fragment">
         <argument
                 android:name="categoryID"
-                app:argType="integer" />
+                app:argType="string" />
 
         <action android:id="@+id/action_gameFragment_to_scoreFragment" app:destination="@id/scoreFragment"
                 app:popUpTo="@+id/categoryFragment" app:launchSingleTop="true"/>
@@ -26,7 +26,7 @@
                 app:argType="integer" />
         <argument
                 android:name="categoryID"
-                app:argType="integer" />
+                app:argType="string" />
         <action android:id="@+id/action_scoreFragment_to_gameFragment" app:destination="@id/gameFragment"
                 app:popUpTo="@+id/categoryFragment"/>
         <action android:id="@+id/action_scoreFragment_to_categoryFragment" app:destination="@id/categoryFragment"/>

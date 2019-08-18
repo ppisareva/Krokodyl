@@ -61,12 +61,5 @@ class ScoreFragment : Fragment() {
 
     }
 
-    fun toCategory(v: View){
-        Navigation.findNavController(view!!).navigate(R.id.action_scoreFragment_to_gameFragment)
-    }
 
-    fun continueGame (v: View){
-        // todo
-
-    }
 }
