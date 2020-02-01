@@ -3,31 +3,38 @@ package com.example.krokodyl.game
 import android.app.Application
 import android.os.CountDownTimer
 import android.text.format.DateUtils
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import com.example.krokodyl.Repository.Repository
-import com.example.krokodyl.model.DatabaseDao
+import com.example.krokodyl.model.Category
+import com.example.krokodyl.model.DatabaseCategory
+import com.example.krokodyl.model.KrokodylDatabase
+import com.example.krokodyl.repository.Repository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
-class GameViewModel(categoryId : String, val database: DatabaseDao,
-                    application: Application) : AndroidViewModel(application){
+class GameViewModel(category : Category, application: Application) : AndroidViewModel(application){
 
     val eventGameFinish= MutableLiveData<Boolean>()
+
     private var currentTimeSeconds = MutableLiveData<Long>()
     var score  = MutableLiveData<Int>()
     var currentWord = MutableLiveData<String>()
+    var  category = MutableLiveData<DatabaseCategory>()
 
     private var index = 0
-    lateinit var  wordList : List<String>
     private lateinit var timer : CountDownTimer
 
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main +  viewModelJob)
-    var repository: Repository = Repository(database, uiScope)
+    private val database = KrokodylDatabase.getInstance(application).categoryDatabaseDao
+
+    var repository: Repository = Repository(database)
+
+
+    lateinit var wordsInGame :List<String>
 
 
 
@@ -38,19 +45,26 @@ class GameViewModel(categoryId : String, val database: DatabaseDao,
         DateUtils.formatElapsedTime(time)
     }
 
-    init {
-        getWordList(categoryId)
-        startTimer()
+//    init {
+//        Log.i("init " ," Game Fragment ")
+//        uiScope.launch {
+//            withContext(Dispatchers.IO) {
+//               val updated =  database.insert(DatabaseCategory("1", "cat", "...", listOf("qwqwe", "osnd", "jksndf")))
+//                Log.i("CategoryList", " Updated at position 1, with words ....")
+//                val category = database.getCategoryByID("1")
+//
+//                //repository.updateWordsListByCategoryID(categoryId)
+//            }
+//        }
+//       // category.value =repository.getCategoryByID(categoryId).value
+//
+//
+//
+//
+//    }
 
-    }
 
 
-     fun getWordList(categoryId: String) {
-        uiScope.launch(Dispatchers.Main) {
-            wordList = repository.getCategoryByID(categoryId).wordsList
-            startGame()
-        }
-    }
 
 
 
@@ -70,34 +84,37 @@ class GameViewModel(categoryId : String, val database: DatabaseDao,
 
 
 
-    private fun startGame(){
+     fun startGame(){
+         startTimer()
         score.value = 0
         eventGameFinish.value = false
-        wordList.shuffled()
-        currentWord.value = wordList.get(index++)
+        wordsInGame = category.value?.words!!
+         Log.i("list of words:", "${category.value!!.words}")
+        wordsInGame.shuffled()
+        currentWord.value = wordsInGame.get(index++)
 
     }
 
 
     fun onNextWord(){
         score.value = score.value!!.plus(1)
-      if(wordList.size>index){
-          currentWord.value=wordList.get(index++)
+      if(wordsInGame.size>index){
+          currentWord.value=wordsInGame.get(index++)
       } else {
           resetList()
       }
 
     }
    fun onSkipWord(){
-        if(wordList.size>index)
-            currentWord.value = wordList[index++]
+        if(wordsInGame.size>index)
+            currentWord.value = wordsInGame[index++]
         else resetList()
     }
 
 
     private fun resetList() {
         index = 0
-        wordList.shuffled()
+        wordsInGame.shuffled()
     }
 
     fun gameFinished() {

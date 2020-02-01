@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.example.krokodyl.R
 import com.example.krokodyl.databinding.GameFragmentBinding
-import com.example.krokodyl.model.KrokodylDatabase
+import com.example.krokodyl.model.Category
 
 
 class GameFragment : Fragment()  {
@@ -21,14 +21,14 @@ class GameFragment : Fragment()  {
     private lateinit var viewModel: GameViewModel
     private lateinit var viewModelFactory: GameViewModelFactory
     private lateinit var  binding : GameFragmentBinding
-    private var categoryId :String = ""
+    private lateinit var category :Category
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // binding data
         binding  = DataBindingUtil.inflate(inflater, R.layout.game_fragment, container, false)
         // get category selected from category fragment
-        categoryId = GameFragmentArgs.fromBundle(arguments!!).categoryID
-        Log.i("category Id ---", categoryId)
+        category = GameFragmentArgs.fromBundle(arguments!!).category
+       Log.i("category Id ---", category.idCategory)
         return binding.root
     }
 
@@ -36,12 +36,17 @@ class GameFragment : Fragment()  {
         super.onActivityCreated(savedInstanceState)
 
         var  application = checkNotNull(this.activity).application
-        val database = KrokodylDatabase.getInstance(application).categoryDatabaseDao
-
-        viewModelFactory = GameViewModelFactory(categoryId,database, application )
+        viewModelFactory = GameViewModelFactory(category, application)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
         binding.gameViewModel = viewModel
         binding.lifecycleOwner = this
+
+        viewModel.category.observe(this, Observer {category ->
+           category?.let {
+               viewModel.startGame()
+           }
+
+        })
 
 
 
@@ -50,7 +55,7 @@ class GameFragment : Fragment()  {
                 viewModel.gameFinished()
                 Navigation.findNavController(view!!)
                     .navigate(
-                        GameFragmentDirections.actionGameFragmentToScoreFragment(viewModel.score.value?:0, categoryId)
+                        GameFragmentDirections.actionGameFragmentToScoreFragment(viewModel.score.value?:0, category)
                     )
             }
         })
@@ -74,3 +79,5 @@ class GameFragment : Fragment()  {
     }
 
 }
+
+

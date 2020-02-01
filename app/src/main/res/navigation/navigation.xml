@@ -5,7 +5,7 @@
             app:startDestination="@id/categoryFragment">
 
     <fragment android:id="@+id/categoryFragment" android:name="com.example.krokodyl.category.CategoryFragment"
-              android:label="fragment_category_list" tools:layout="@layout/fragment_category_list">
+              android:label="fragment_category_list" tools:layout="@layout/category_fragment">
 
         <action android:id="@+id/action_categoryFragment_to_gameFragment" app:destination="@id/gameFragment"/>
 
@@ -13,8 +13,8 @@
     <fragment android:id="@+id/gameFragment" android:name="com.example.krokodyl.game.GameFragment"
               android:label="game_fragment" tools:layout="@layout/game_fragment">
         <argument
-                android:name="categoryID"
-                app:argType="string" />
+                android:name="category"
+                app:argType="com.example.krokodyl.model.Category" />
 
         <action android:id="@+id/action_gameFragment_to_scoreFragment" app:destination="@id/scoreFragment"
                 app:popUpTo="@+id/categoryFragment" app:launchSingleTop="true"/>
@@ -25,8 +25,8 @@
                 android:name="score"
                 app:argType="integer" />
         <argument
-                android:name="categoryID"
-                app:argType="string" />
+                android:name="category"
+                app:argType="com.example.krokodyl.model.Category" />
         <action android:id="@+id/action_scoreFragment_to_gameFragment" app:destination="@id/gameFragment"
                 app:popUpTo="@+id/categoryFragment"/>
         <action android:id="@+id/action_scoreFragment_to_categoryFragment" app:destination="@id/categoryFragment"/>

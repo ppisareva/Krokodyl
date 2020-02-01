@@ -32,7 +32,7 @@ class ScoreFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val score = ScoreFragmentArgs.fromBundle(arguments!!).score
-        val categoryId = ScoreFragmentArgs.fromBundle(arguments!!).categoryID
+        val category = ScoreFragmentArgs.fromBundle(arguments!!).category
         Log.i("score", score.toString())
         viewModelFactory = ScoreViewModelFactory(score)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ScoreViewModel::class.java)
@@ -47,7 +47,7 @@ class ScoreFragment : Fragment() {
             if(starNewGame){
                 Navigation.findNavController(view!!)
                     .navigate(
-                        ScoreFragmentDirections.actionScoreFragmentToGameFragment(categoryId))
+                        ScoreFragmentDirections.actionScoreFragmentToGameFragment(category))
                 viewModel.onEventStartNewGameEnded()
             }
         })

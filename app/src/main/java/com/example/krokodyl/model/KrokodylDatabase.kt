@@ -7,7 +7,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [Category::class], version = 2,  exportSchema = false)
+@Database(entities = [DatabaseCategory::class], version = 2,  exportSchema = false)
 @TypeConverters( Converters::class)
 abstract class KrokodylDatabase : RoomDatabase (){
 

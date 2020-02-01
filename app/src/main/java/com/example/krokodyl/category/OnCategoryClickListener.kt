@@ -1,7 +1,8 @@
 package com.example.krokodyl.category
 
 import com.example.krokodyl.model.Category
+// TODO
+class OnCategoryClickListener (val clickListener: (category: Category) -> Unit) {
 
-class OnCategoryClickListener (val clickListener: (categoryId: String) -> Unit) {
-   fun onCategoryClick(category: Category) = clickListener(category.categoryId)
+   fun onCategoryClick(category: Category) = clickListener(category)
 }

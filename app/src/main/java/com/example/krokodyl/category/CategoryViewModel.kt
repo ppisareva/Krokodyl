@@ -3,25 +3,34 @@ package com.example.krokodyl.category
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.example.krokodyl.Repository.Repository
-import com.example.krokodyl.model.DatabaseDao
+import com.example.krokodyl.model.Category
+import com.example.krokodyl.model.KrokodylDatabase
+import com.example.krokodyl.repository.Repository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
-class CategoryViewModel (val database: DatabaseDao, application: Application
+class CategoryViewModel ( application: Application
 ) : AndroidViewModel(application){
-    var currentCategory = MutableLiveData<String> ()
+    var currentCategory = MutableLiveData<Category> ()
 
-    private var viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main +  viewModelJob)
-    var repository: Repository =
-        Repository(database, uiScope)
+    private val viewModelJob = SupervisorJob()
+
+    private val viewModelScope = CoroutineScope( Dispatchers.Main+viewModelJob)
+    val database = KrokodylDatabase.getInstance(application).categoryDatabaseDao
+    var repository: Repository = Repository(database)
+
+    init {
+        viewModelScope.launch {
+            repository.refreshCategory()
+        }
+    }
 
     var categoriesList = repository.getAll()
 
-    fun eventStartGame(categoryId: String) {
-        currentCategory.value = categoryId
+    fun eventStartGame(category: Category) {
+        currentCategory.value = category
     }
 
 
@@ -34,48 +43,5 @@ class CategoryViewModel (val database: DatabaseDao, application: Application
         super.onCleared()
         viewModelJob.cancel()
     }
-
-//
-//    init {
-//    getAll()
-//}
-//
-//    fun getAll(){
-//        uiScope.launch {
-//            getAllCategoryFromDatabase()
-//
-//        }
-//    }
-//
-//    private suspend fun getAllCategoryFromDatabase(){
-//        return withContext(Dispatchers.IO) {
-//
-//                database.update(Category("1", "Змішана", "", listOf<String>("ololo", "alala")))
-//
-//                database.update(Category("2", "Їжа", "", listOf<String>("ololo", "dfdfdfdf","alala")))
-//
-//                database.update(Category("3", "Тварини"))
-//
-//                database.update(Category("4", "Ігри"))
-//
-//                database.update(Category("5", "Українські Відомі Особістості"))
-//
-//                database.update(Category("6", "Природа"))
-//
-//                database.update(Category("7", "Бренди"))
-//
-//                database.update(Category("8", "Всередині Будинку"))
-//
-//                database.update(Category("9", "Прилади"))
-//
-//                database.update(Category("10", "Дії"))
-//
-//                database.update(Category("11", "Одяг"))
-//
-//                database.update(Category("12", "Підводний світ"))
-//
-//
-//
-//        }}
 
 }
