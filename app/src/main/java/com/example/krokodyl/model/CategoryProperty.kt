@@ -20,3 +20,8 @@ fun toDatabaseObject(category: Category): DatabaseCategory{
 }
 
 
+fun toCategoryPropertyObject(category: DatabaseCategory):Category {
+    return  Category(category.categoryId,category.title, category.image, category.words )
+}
+
+

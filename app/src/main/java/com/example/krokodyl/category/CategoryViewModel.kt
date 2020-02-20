@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.krokodyl.model.Category
 import com.example.krokodyl.model.KrokodylDatabase
-import com.example.krokodyl.repository.Repository
+import com.example.krokodyl.repository.CategoryRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -19,7 +19,7 @@ class CategoryViewModel ( application: Application
 
     private val viewModelScope = CoroutineScope( Dispatchers.Main+viewModelJob)
     val database = KrokodylDatabase.getInstance(application).categoryDatabaseDao
-    var repository: Repository = Repository(database)
+    var repository: CategoryRepository = CategoryRepository(database)
 
     init {
         viewModelScope.launch {

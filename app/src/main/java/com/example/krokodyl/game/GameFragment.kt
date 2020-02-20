@@ -41,9 +41,17 @@ class GameFragment : Fragment()  {
         binding.gameViewModel = viewModel
         binding.lifecycleOwner = this
 
-        viewModel.category.observe(this, Observer {category ->
-           category?.let {
-               viewModel.startGame()
+        viewModel.currentCategory.observe(this, Observer {it ->
+           it?.let {
+               if (!it.listOfWordsCategory.isEmpty()) {
+                   Log.i(
+                       "caegory changed", "category title ${category.nameCategory} " +
+                               ", category image ${category.imageCategory} ," +
+                               " category list of words ${category.listOfWordsCategory}"
+                   )
+
+                   viewModel.startGame()
+               }
            }
 
         })

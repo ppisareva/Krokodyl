@@ -6,7 +6,8 @@ data class CategoryFromAPI (
     val id : String,
    @Json(name = "name")
    val title : String,
-val image : String
+   val image : String
+
 ){
 
 }
