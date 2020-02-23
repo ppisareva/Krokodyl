@@ -12,6 +12,7 @@ apply plugin: 'com.google.gms.google-services'
 
 
 
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -35,6 +36,9 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
     lintOptions {
         abortOnError false
@@ -91,6 +95,11 @@ dependencies {
 
     implementation "com.github.bumptech.glide:glide:$version_glide"
     annotationProcessor "com.github.bumptech.glide:compiler:$version_glide"
+
+    // workManager to schedule API update
+
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+
 
 
 

@@ -20,12 +20,12 @@ class CategoryRepository(private val categoryDAO: DatabaseDao) {
 
     // todo transfer categories type
     private fun updateDB(category: List<CategoryFromAPI>) {
-        for (category in category) {
+        for (c in category) {
             categoryDAO.insert(
                 DatabaseCategory(
-                    categoryId = category.id,
-                    title = category.title,
-                    image = category.image
+                    categoryId = c.id,
+                    title = c.title,
+                    image = c.image
 
                 )
             )
