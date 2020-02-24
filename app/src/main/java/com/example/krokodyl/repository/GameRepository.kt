@@ -23,14 +23,23 @@ class GameRepository(private val categoryDAO: DatabaseDao, val category: Categor
 
 
     suspend fun updateWordsListByCategoryID(category: Category) {
-        withContext(Dispatchers.IO) {
+
             // get data from API and update category in DB
-            category.listOfWordsCategory = KrokodylAPI.retrofitService.getWordsListByCategory(category.idCategory).await()
-            categoryDAO.insert(toDatabaseObject(category))
+            try {
+                   category.listOfWordsCategory =
+                       KrokodylAPI.retrofitService.getWordsListByCategory(category.idCategory)
+                           .await()
+                withContext(Dispatchers.IO) {
+                    categoryDAO.insert(toDatabaseObject(category))
+                    "Success: ${category.nameCategory} Category was updated"
+                }
+            } catch (e: Exception) {
+                "Failure: ${e.message}"
+            }
+
         }
 
 
     }
-}
 
 

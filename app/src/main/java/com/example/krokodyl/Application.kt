@@ -14,6 +14,7 @@ class Application : Application(){
 
     override fun onCreate() {
         super.onCreate()
+        delayedInit()
     }
 
     // run initialization in background thred so it will not block app when created

@@ -1,6 +1,5 @@
 package com.example.krokodyl.game
 
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -69,23 +68,6 @@ class GameFragment : Fragment()  {
         })
 
     }
-
-
-
-
-
-
-     // set orientation for fragment to landScape
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-    }
-    // change orientation to Unspecified
-    override fun onDestroy() {
-        super.onDestroy()
-        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-    }
-
 }
 
 

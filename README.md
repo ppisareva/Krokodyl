@@ -29,7 +29,7 @@ The following functionality is completed:
 ## Development story 
 
 The following technologies have been used:
-* [x] MVVM
+* [x] MM
 * [x] Navigation recourses 
 * [x] Constraint Layout 
 * [x] Firebase Firestore 
