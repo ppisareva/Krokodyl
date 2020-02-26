@@ -14,6 +14,8 @@ class RefreshDataWorker(appContext: Context, params: WorkerParameters):
     companion object {
         const val WORK_NAME = "RefreshDataWorker"
     }
+
+    // update all categories only once per day
     override suspend fun doWork(): Result {
         val database = KrokodylDatabase.getInstance(applicationContext).categoryDatabaseDao
         var repository: CategoryRepository = CategoryRepository(database)

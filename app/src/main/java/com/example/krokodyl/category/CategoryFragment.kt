@@ -14,12 +14,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.krokodyl.R
 import com.example.krokodyl.databinding.CategoryFragmentBinding
 
-
+// todo first open app slow , changing category order
 class CategoryFragment : Fragment() {
 
     lateinit var viewModel: CategoryViewModel
     lateinit var viewModelFactory: CategoryViewModelFactory
     lateinit var binding : CategoryFragmentBinding
+
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -46,8 +47,11 @@ class CategoryFragment : Fragment() {
         val layoutManager = GridLayoutManager(activity, 2)
         binding.categoryRv.layoutManager = layoutManager
         viewModel.categoriesList.observe(this, Observer { categoryList ->
-            adapter.data = categoryList
-            Log.i("List", categoryList.size.toString())
+
+                adapter.data = categoryList
+
+
+           
         })
 
         viewModel.currentCategory.observe(this, Observer { category ->

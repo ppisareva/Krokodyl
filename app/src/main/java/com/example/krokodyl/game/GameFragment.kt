@@ -14,7 +14,7 @@ import com.example.krokodyl.R
 import com.example.krokodyl.databinding.GameFragmentBinding
 import com.example.krokodyl.model.Category
 
-
+// todo first time start game slow
 class GameFragment : Fragment()  {
 
     private lateinit var viewModel: GameViewModel
@@ -34,6 +34,7 @@ class GameFragment : Fragment()  {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        var firstStart = true
         var  application = checkNotNull(this.activity).application
         viewModelFactory = GameViewModelFactory(category, application)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
@@ -42,13 +43,9 @@ class GameFragment : Fragment()  {
 
         viewModel.currentCategory.observe(this, Observer {it ->
            it?.let {
-               if (!it.listOfWordsCategory.isEmpty()) {
-                   Log.i(
-                       "caegory changed", "category title ${category.nameCategory} " +
-                               ", category image ${category.imageCategory} ," +
-                               " category list of words ${category.listOfWordsCategory}"
-                   )
 
+               if (!it.listOfWordsCategory.isEmpty()&& firstStart) {
+                  firstStart = false
                    viewModel.startGame()
                }
            }
