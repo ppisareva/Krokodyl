@@ -7,7 +7,13 @@ Features:
 - Draw a new card.
 - Choose different categories!
 
-With 10 themed categories to choose from the road trip or wait at the bank will never be the same.
+With 10 themed categories to choose from the road trip or corporate event will never be the same.
+
+## Personas 
+Polina mom with 2 kids https://docs.google.com/document/d/19zoT7ALlL_3IqnWHPz2lxTMcansIjyjg4lAYfU74Frk/edit?usp=sharing
+Halina student treveler https://docs.google.com/spreadsheets/d/1M1Xg3MEzUY6lY6SRcWqPBrclXLsZ4R52sHOnks-HlYQ/edit?usp=sharing
+businessman coffee shop owner  https://docs.google.com/spreadsheets/d/185VWifSxMPtzEBsB6dCbTDSDvP7zlB3ACMSrun--Lz4/edit?usp=sharing
+
 
 
 ## User Stories
