@@ -11,9 +11,25 @@ With 10 themed categories to choose from the road trip or corporate event will n
 
 ## Personas 
 Polina mom with 2 kids https://docs.google.com/document/d/19zoT7ALlL_3IqnWHPz2lxTMcansIjyjg4lAYfU74Frk/edit?usp=sharing
+
+Features list: 
+Easy words for kids 
+Ability to vary the time  
+Interesting category 
+
 Halina student treveler https://docs.google.com/spreadsheets/d/1M1Xg3MEzUY6lY6SRcWqPBrclXLsZ4R52sHOnks-HlYQ/edit?usp=sharing
+
+Features list 
+Complexity 
+Different themes for a different season or holiday  
+Ability to guess one difficult word for a short time  
+
 businessman coffee shop owner  https://docs.google.com/spreadsheets/d/185VWifSxMPtzEBsB6dCbTDSDvP7zlB3ACMSrun--Lz4/edit?usp=sharing
 
+Features list 
+Ability to change time of game 
+Keep score 
+No category just immediate access  
 
 
 ## User Stories
@@ -21,14 +37,26 @@ businessman coffee shop owner  https://docs.google.com/spreadsheets/d/185VWifSxM
 
 The following functionality is completed:
 
-* [x] User can start game.
-* [x] User can choose the category of there words to guess and start a game
-* [x] On a game user can:
-  * [x] Guess the word
-  * [x] Skip the word
-  * [x] See time remained, words guessed
-* [x] After the game finished user can navigate to the result screen and see the final score 
-* [x] From result screen user can navigate back to categories or start a new game.
+* [x] User can see different categories of words to guess
+* [x] User can choose from different categories to start a game
+* [ ] User can choose a different time for timer 
+* [ ] User can choose words complicity 
+*  On a game screen:
+  * [x] See next word to guess
+  * [x] See timer and score 
+  * [x] Skip the word 
+  * [x] Go to next word
+* [x] User can navigate to the result screen and see the final score 
+* [x] Users can navigate back to categories or start a new game.
+Additional:
+* [ ] User can choose a different time for timer 
+* [ ] User can choose words complicity 
+* [ ] User can choose numbers of players
+* [ ] User can score for each user
+* [ ] User can get new category by season or ocusion 
+* [ ] User can choose to guess one hard word for 1 minute 
+* [ ] User can choose easy mode for kids 
+
 
 
 
