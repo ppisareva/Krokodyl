@@ -38,10 +38,8 @@ No category just immediate access
 The following functionality is completed:
 
 * [x] User can see different categories of words to guess
-* [x] User can choose from different categories to start a game
-* [ ] User can choose a different time for timer 
-* [ ] User can choose words complicity 
-*  On a game screen:
+* [x] User can choose from different categories to start a game 
+* [x]  On a game screen:
   * [x] See next word to guess
   * [x] See timer and score 
   * [x] Skip the word 
@@ -56,6 +54,8 @@ Additional:
 * [ ] User can get new category by season or ocusion 
 * [ ] User can choose to guess one hard word for 1 minute 
 * [ ] User can choose easy mode for kids 
+* [ ] Disabled user can equally play with friends  
+* [ ] User can cast the game to TV
 
 
 
