@@ -6,6 +6,7 @@ import android.text.format.DateUtils
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import com.example.krokodyl.R
 import com.example.krokodyl.model.Category
 import com.example.krokodyl.model.KrokodylDatabase
 import com.example.krokodyl.repository.GameRepository
@@ -18,6 +19,7 @@ import kotlin.random.Random
 class GameViewModel(category : Category, application: Application) : AndroidViewModel(application){
 
     val eventGameFinish= MutableLiveData<Boolean>()
+    val eventStartTimer = MutableLiveData<Boolean>()
 
     private var currentTimeSeconds = MutableLiveData<Long>()
     var score  = MutableLiveData<Int>()
@@ -44,6 +46,27 @@ class GameViewModel(category : Category, application: Application) : AndroidView
         }
     }
 
+     fun startReadyTimer(){
+         eventStartTimer.value = true
+        timer = object : CountDownTimer(START_TIME, ONE_SECOND) {
+            override fun onTick(millisUntilFinished: Long) {
+                currentWord.value =  when (millisUntilFinished/ ONE_SECOND) {
+                    ONE-> getApplication<Application>().applicationContext.getString(R.string.ready)
+                    TWO-> getApplication<Application>().applicationContext.getString(R.string.ready)
+                    else -> {
+                        getApplication<Application>().applicationContext.getString(R.string.go)
+                    }
+                }
+            }
+            override fun onFinish() {
+                startGame()
+                eventStartTimer.value = false
+            }
+        }
+        timer.start()
+    }
+
+
 
     private fun startTimer(){
         timer = object : CountDownTimer(COUNTDOWN_TIME, ONE_SECOND) {
@@ -58,35 +81,26 @@ class GameViewModel(category : Category, application: Application) : AndroidView
     }
 
 
-
-
     fun startGame(){
         startTimer()
         listOfWords = currentCategory.value!!.listOfWordsCategory
-
         score.value = 0
         eventGameFinish.value = false
         nextWord()
-
     }
 
     private fun nextWord(){
         currentWord.value = listOfWords.get(Random.nextInt(0, listOfWords.size))
     }
 
-
     fun onNextWord(){
         score.value = score.value!!.plus(1)
         nextWord()
-
-
     }
+
     fun onSkipWord(){
         nextWord()
     }
-
-
-
 
     fun gameFinished() {
         eventGameFinish.value = false
@@ -97,6 +111,10 @@ class GameViewModel(category : Category, application: Application) : AndroidView
         const val ONE_SECOND = 1000L
         // This is the total time of the game
         const val COUNTDOWN_TIME = 10000L
+        //
+        const val START_TIME = 2000L
+        const val ONE : Long = 1
+        const val TWO : Long = 2
     }
 
     override fun onCleared() {

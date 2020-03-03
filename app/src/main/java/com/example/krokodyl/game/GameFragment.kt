@@ -13,6 +13,7 @@ import androidx.navigation.Navigation
 import com.example.krokodyl.R
 import com.example.krokodyl.databinding.GameFragmentBinding
 import com.example.krokodyl.model.Category
+import kotlinx.android.synthetic.main.game_fragment.*
 
 // todo first time start game slow
 class GameFragment : Fragment()  {
@@ -41,18 +42,25 @@ class GameFragment : Fragment()  {
         binding.gameViewModel = viewModel
         binding.lifecycleOwner = this
 
+        // todo improve 
         viewModel.currentCategory.observe(this, Observer {it ->
            it?.let {
-
                if (!it.listOfWordsCategory.isEmpty()&& firstStart) {
                   firstStart = false
-                   viewModel.startGame()
+                   viewModel.startReadyTimer()
                }
            }
 
         })
 
-
+        viewModel.eventStartTimer.observe(this, Observer { isStarted ->
+            if(!isStarted){
+                skip_button.visibility =  View.VISIBLE
+                next_button.visibility = View.VISIBLE
+                score.visibility = View.VISIBLE
+                timer_tv.visibility = View.VISIBLE
+            }
+        })
 
         viewModel.eventGameFinish.observe(this, Observer { isFinished ->
             if(isFinished){
