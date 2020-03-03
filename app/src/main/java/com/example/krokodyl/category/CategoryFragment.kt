@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.krokodyl.R
 import com.example.krokodyl.databinding.CategoryFragmentBinding
 
-// todo first open app slow , changing category order
+// todo first open app slow, changing category order
 class CategoryFragment : Fragment() {
 
     lateinit var viewModel: CategoryViewModel
@@ -46,12 +46,12 @@ class CategoryFragment : Fragment() {
         binding.categoryViewModel = viewModel
         val layoutManager = GridLayoutManager(activity, 2)
         binding.categoryRv.layoutManager = layoutManager
+
         viewModel.categoriesList.observe(this, Observer { categoryList ->
-
-                adapter.data = categoryList
-
-
-           
+           if(adapter.data.isEmpty()) {
+               Log.e("adapter is empty", "load data")
+               adapter.data = categoryList
+           }
         })
 
         viewModel.currentCategory.observe(this, Observer { category ->

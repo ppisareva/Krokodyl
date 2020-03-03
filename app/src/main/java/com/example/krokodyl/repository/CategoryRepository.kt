@@ -1,5 +1,6 @@
 package com.example.krokodyl.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.krokodyl.model.*
@@ -14,11 +15,12 @@ class CategoryRepository(private val categoryDAO: DatabaseDao) {
     }
 
     fun getAll(): LiveData<List<Category>> {
+        Log.e("list from DB", "-----"
+        )
         return categoryList
     }
 
 
-    // todo transfer categories type
     private fun updateDB(category: List<CategoryFromAPI>) {
         for (c in category) {
             categoryDAO.insert(
@@ -26,13 +28,24 @@ class CategoryRepository(private val categoryDAO: DatabaseDao) {
                     categoryId = c.id,
                     title = c.title,
                     image = c.image
-
                 )
             )
         }
     }
 
+
+    suspend fun firstInit() {
+       if(categoryDAO.getAll().value.isNullOrEmpty()){
+           Log.e("first init", "download from API" )
+           getDataFromAPI()
+       }
+    }
+
     suspend fun refreshCategory() {
+        getDataFromAPI()
+    }
+
+    suspend fun getDataFromAPI (){
         var getPropertiesDeferred = KrokodylAPI.retrofitService.getCategoriesList()
         try {
             var listResult = getPropertiesDeferred.await()
@@ -44,6 +57,7 @@ class CategoryRepository(private val categoryDAO: DatabaseDao) {
             "Failure: ${e.message}"
         }
     }
+
 
 
 

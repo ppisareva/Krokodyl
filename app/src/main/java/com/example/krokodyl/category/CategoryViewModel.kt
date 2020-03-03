@@ -1,8 +1,10 @@
 package com.example.krokodyl.category
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.example.krokodyl.AppPreferences
 import com.example.krokodyl.model.Category
 import com.example.krokodyl.model.KrokodylDatabase
 import com.example.krokodyl.repository.CategoryRepository
@@ -22,8 +24,15 @@ class CategoryViewModel ( application: Application
     var repository: CategoryRepository = CategoryRepository(database)
 
     init {
+
         viewModelScope.launch {
-            repository.refreshCategory()
+            if (!AppPreferences.firstRun) {
+                AppPreferences.firstRun = true
+                Log.d("firstInit", "The value of our pref is: ${AppPreferences.firstRun}")
+                repository.firstInit()
+
+            }
+
         }
     }
 

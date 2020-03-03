@@ -9,7 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
-
+// todo update the data only if database is empty
 private const val BASE_URL = "https://f864e356-86a0-4caa-9c53-c1d6bdbfbea3.mock.pstmn.io/"
 //private const val BASE_URL = "https://13225fdf-167b-40b2-97dd-c8a2ba523242.mock.pstmn.io/"
 

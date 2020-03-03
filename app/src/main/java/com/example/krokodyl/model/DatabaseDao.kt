@@ -12,8 +12,7 @@ interface DatabaseDao {
     @Insert (onConflict = OnConflictStrategy.REPLACE)
     fun insert(category: DatabaseCategory)
 
-
-    @Query("SELECT * from category_table")
+    @Query("SELECT * from category_table ORDER BY categoryId ASC")
     fun getAll(): LiveData<List<DatabaseCategory>>
 
 
