@@ -3,6 +3,7 @@ package com.example.krokodyl.game
 import android.app.Application
 import android.os.CountDownTimer
 import android.text.format.DateUtils
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -20,11 +21,13 @@ class GameViewModel(category : Category, application: Application) : AndroidView
 
     val eventGameFinish= MutableLiveData<Boolean>()
     val eventStartTimer = MutableLiveData<Boolean>()
+    val networkResult = MutableLiveData<Int>()
 
     private var currentTimeSeconds = MutableLiveData<Long>()
     var score  = MutableLiveData<Int>()
     var currentWord = MutableLiveData<String>()
     private lateinit var listOfWords: List<String>
+
 
 
     private lateinit var timer : CountDownTimer
@@ -42,7 +45,8 @@ class GameViewModel(category : Category, application: Application) : AndroidView
 
     init {
         uiScope.launch {
-            repository.updateWordsListByCategoryID(category)
+            networkResult.value =  repository.updateWordsListByCategoryID(category)
+            Log.e("result", "${networkResult.value}")
         }
     }
 

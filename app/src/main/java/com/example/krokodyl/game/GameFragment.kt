@@ -13,6 +13,7 @@ import androidx.navigation.Navigation
 import com.example.krokodyl.R
 import com.example.krokodyl.databinding.GameFragmentBinding
 import com.example.krokodyl.model.Category
+import com.example.krokodyl.repository.GameRepository
 import kotlinx.android.synthetic.main.game_fragment.*
 
 // todo first time start game slow
@@ -35,23 +36,30 @@ class GameFragment : Fragment()  {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        var firstStart = true
+        var isListEmpty = true
         var  application = checkNotNull(this.activity).application
         viewModelFactory = GameViewModelFactory(category, application)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
         binding.gameViewModel = viewModel
         binding.lifecycleOwner = this
 
-        // todo improve 
+        // todo improve no internet
         viewModel.currentCategory.observe(this, Observer {it ->
            it?.let {
-               if (!it.listOfWordsCategory.isEmpty()&& firstStart) {
-                  firstStart = false
+               if (!it.listOfWordsCategory.isEmpty()) {
                    viewModel.startReadyTimer()
+                   isListEmpty= false
                }
            }
 
         })
+
+        viewModel.networkResult.observe(this, Observer { it->
+            if(it == GameRepository.BAD_RESPONSE&&isListEmpty){
+                viewModel.currentWord.value = getString(R.string.no_internet)
+            }
+        })
+
 
         viewModel.eventStartTimer.observe(this, Observer { isStarted ->
             if(!isStarted){

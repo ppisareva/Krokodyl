@@ -12,6 +12,12 @@ import kotlinx.coroutines.withContext
 
 class GameRepository(private val categoryDAO: DatabaseDao, val category: Category) {
 
+    companion object{
+        const val BAD_RESPONSE= 200
+        const val GOOD_RESPONSE =500
+
+    }
+
     private val currentCategory :LiveData<Category> = Transformations.map(categoryDAO.getCategoryByID(category.idCategory)) {
         toCategoryPropertyObject(it)
     }
@@ -22,19 +28,21 @@ class GameRepository(private val categoryDAO: DatabaseDao, val category: Categor
 
 
 
-    suspend fun updateWordsListByCategoryID(category: Category) {
+    suspend fun updateWordsListByCategoryID(category: Category) : Int{
 
             // get data from API and update category in DB
             try {
                    category.listOfWordsCategory =
-                       KrokodylAPI.retrofitService.getWordsListByCategory(category.idCategory)
-                           .await()
+                       KrokodylAPI.retrofitService.getWordsListByCategory(category.idCategory).await()
+
                 withContext(Dispatchers.IO) {
                     categoryDAO.insert(toDatabaseObject(category))
-                    "Success: ${category.nameCategory} Category was updated"
+
                 }
+                return GOOD_RESPONSE
             } catch (e: Exception) {
                 "Failure: ${e.message}"
+                return BAD_RESPONSE
             }
 
         }
