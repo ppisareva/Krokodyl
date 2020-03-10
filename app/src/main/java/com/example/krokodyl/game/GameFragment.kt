@@ -1,10 +1,12 @@
 package com.example.krokodyl.game
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -15,6 +17,7 @@ import com.example.krokodyl.databinding.GameFragmentBinding
 import com.example.krokodyl.model.Category
 import com.example.krokodyl.repository.GameRepository
 import kotlinx.android.synthetic.main.game_fragment.*
+
 
 // todo first time start game slow
 class GameFragment : Fragment()  {
@@ -33,22 +36,26 @@ class GameFragment : Fragment()  {
         return binding.root
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         var isListEmpty = true
+        var isFirstLoad = true
         var  application = checkNotNull(this.activity).application
         viewModelFactory = GameViewModelFactory(category, application)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
         binding.gameViewModel = viewModel
         binding.lifecycleOwner = this
+        (activity as AppCompatActivity).supportActionBar?.title = category.nameCategory
 
         // todo improve no internet
         viewModel.currentCategory.observe(this, Observer {it ->
            it?.let {
-               if (!it.listOfWordsCategory.isEmpty()) {
+               if (!it.listOfWordsCategory.isEmpty()&&isFirstLoad) {
                    viewModel.startReadyTimer()
                    isListEmpty= false
+                   isFirstLoad=false
                }
            }
 
@@ -67,7 +74,29 @@ class GameFragment : Fragment()  {
                 next_button.visibility = View.VISIBLE
                 score.visibility = View.VISIBLE
                 timer_tv.visibility = View.VISIBLE
+                time_tv.visibility = View.VISIBLE
             }
+        })
+
+        viewModel.attentionState.observe(this, Observer { state->
+            Log.i("color", "$state")
+            var color = 0
+            when(state){
+                GameViewModel.READY ->{
+                    color = R.color.ready
+                }
+                GameViewModel.GO ->{
+                    color = R.color.go
+                }
+                GameViewModel.GAME ->{
+                    color = android.R.color.transparent
+                }
+                else -> {
+                    color = android.R.color.transparent
+                }
+
+            }
+            gameFragment_layout.setBackgroundColor(resources.getColor(color))
         })
 
         viewModel.eventGameFinish.observe(this, Observer { isFinished ->

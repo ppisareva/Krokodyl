@@ -8,4 +8,6 @@
   <color name="secondaryDarkColor">#9f0000</color>
   <color name="primaryTextColor">#e0f2f1</color>
   <color name="secondaryTextColor">#ffccbc</color>
+  <color name="ready">#fff176</color>
+  <color name="go">#81c784</color>
 </resources>

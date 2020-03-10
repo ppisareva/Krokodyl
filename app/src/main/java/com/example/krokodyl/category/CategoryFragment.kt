@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -30,6 +31,7 @@ class CategoryFragment : Fragment() {
             container,
             false
         )
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.choose_category)
 
         var  application = checkNotNull(this.activity).application
 

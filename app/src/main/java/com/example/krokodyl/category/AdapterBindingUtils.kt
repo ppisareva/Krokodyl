@@ -24,7 +24,7 @@ import com.example.krokodyl.model.Category
             Glide.with(imgView.context)
                 .load(item.imageCategory)
                 .apply(
-                    RequestOptions()
+                    RequestOptions().circleCrop()
                     .placeholder(R.drawable.loading_animation)
                     .error(R.drawable.ic_broken_image))
                 .into(imgView)

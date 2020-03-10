@@ -3,4 +3,5 @@
     <dimen name="text_margin">16dp</dimen>
     <dimen name="guess_words_text_size">32sp</dimen>
     <dimen name="timer_text_size">24sp</dimen>
+    <dimen name="normal_margin">8dp</dimen>
 </resources>

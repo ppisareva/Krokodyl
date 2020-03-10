@@ -22,6 +22,7 @@ class GameViewModel(category : Category, application: Application) : AndroidView
     val eventGameFinish= MutableLiveData<Boolean>()
     val eventStartTimer = MutableLiveData<Boolean>()
     val networkResult = MutableLiveData<Int>()
+    val attentionState = MutableLiveData<Int>()
 
     private var currentTimeSeconds = MutableLiveData<Long>()
     var score  = MutableLiveData<Int>()
@@ -52,19 +53,32 @@ class GameViewModel(category : Category, application: Application) : AndroidView
 
      fun startReadyTimer(){
          eventStartTimer.value = true
+         Log.e("status1", "${attentionState.value}")
         timer = object : CountDownTimer(START_TIME, ONE_SECOND) {
             override fun onTick(millisUntilFinished: Long) {
-                currentWord.value =  when (millisUntilFinished/ ONE_SECOND) {
-                    ONE-> getApplication<Application>().applicationContext.getString(R.string.ready)
-                    TWO-> getApplication<Application>().applicationContext.getString(R.string.ready)
+                 when (millisUntilFinished/ ONE_SECOND) {
+                    ONE-> {
+                        currentWord.value =  getApplication<Application>().applicationContext.getString(R.string.ready)
+                        attentionState.value = READY
+                        Log.e("status2", "${attentionState.value}")
+                    }
+                    TWO-> {
+                        currentWord.value =  getApplication<Application>().applicationContext.getString(R.string.ready)
+                        attentionState.value = READY
+                        Log.e("status3", "${attentionState.value}")
+                    }
                     else -> {
-                        getApplication<Application>().applicationContext.getString(R.string.go)
+                        currentWord.value =  getApplication<Application>().applicationContext.getString(R.string.go)
+                        attentionState.value = GO
+                        Log.e("status4", "${attentionState.value}")
                     }
                 }
             }
             override fun onFinish() {
                 startGame()
                 eventStartTimer.value = false
+                attentionState.value = GAME
+                Log.e("status5", "${attentionState.value}")
             }
         }
         timer.start()
@@ -119,6 +133,9 @@ class GameViewModel(category : Category, application: Application) : AndroidView
         const val START_TIME = 2000L
         const val ONE : Long = 1
         const val TWO : Long = 2
+        const val READY = 1
+        const val GO = 2
+        const val GAME = 0
     }
 
     override fun onCleared() {
