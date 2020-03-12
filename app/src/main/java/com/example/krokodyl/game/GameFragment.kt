@@ -16,10 +16,9 @@ import com.example.krokodyl.R
 import com.example.krokodyl.databinding.GameFragmentBinding
 import com.example.krokodyl.model.Category
 import com.example.krokodyl.repository.GameRepository
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.game_fragment.*
 
-
-// todo first time start game slow
 class GameFragment : Fragment()  {
 
     private lateinit var viewModel: GameViewModel
@@ -32,9 +31,10 @@ class GameFragment : Fragment()  {
         binding  = DataBindingUtil.inflate(inflater, R.layout.game_fragment, container, false)
         // get category selected from category fragment
         category = GameFragmentArgs.fromBundle(arguments!!).category
-       Log.i("category Id ---", category.idCategory)
+        Log.i("category Id ---", category.idCategory)
         return binding.root
     }
+
 
     @SuppressLint("ResourceAsColor")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -47,9 +47,9 @@ class GameFragment : Fragment()  {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
         binding.gameViewModel = viewModel
         binding.lifecycleOwner = this
-        (activity as AppCompatActivity).supportActionBar?.title = category.nameCategory
+        (activity as AppCompatActivity).toolbar?.title = category.nameCategory
+        setHasOptionsMenu(true)
 
-        // todo improve no internet
         viewModel.currentCategory.observe(this, Observer {it ->
            it?.let {
                if (!it.listOfWordsCategory.isEmpty()&&isFirstLoad) {
@@ -110,6 +110,8 @@ class GameFragment : Fragment()  {
         })
 
     }
+
+
 }
 
 

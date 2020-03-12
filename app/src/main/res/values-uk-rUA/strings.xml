@@ -7,10 +7,14 @@
     <string name="ready">увага</string>
     <string name="go">впере</string>
     <string name="no_internet">нема інтернету</string>
-    <string name="choose_category">виберіть категорию</string>
+    <string name="choose_category">категорії</string>
     <string name="score">результат</string>
     <string name="no_text" />
     <string name="back">назад до списку</string>
     <string name="time_left">Залишилось</string>
-    <string name="set_timer">set</string>
+    <string name="set_timer">Задати таймер</string>
+    <string name="ten_sec">10 секунд</string>
+    <string name="thirty_sec">30 секунд</string>
+    <string name="one_minute">1 хвилина</string>
+    <string name="tree_minutes">3 хвилини</string>
 </resources>

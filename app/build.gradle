@@ -103,6 +103,9 @@ dependencies {
     // material design
     implementation 'com.google.android.material:material:1.2.0-alpha05'
 
+    //settings
+    implementation "androidx.preference:preference-ktx:$preference_version"
+
 
 
 
@@ -124,6 +127,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:truth:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'com.google.truth:truth:1.0'
+
 
     // Espresso dependencies
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

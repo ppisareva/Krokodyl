@@ -14,6 +14,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.krokodyl.R
 import com.example.krokodyl.databinding.CategoryFragmentBinding
+import kotlinx.android.synthetic.main.activity_main.*
 
 // todo first open app slow, changing category order
 class CategoryFragment : Fragment() {
@@ -31,7 +32,7 @@ class CategoryFragment : Fragment() {
             container,
             false
         )
-        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.choose_category)
+        (activity as AppCompatActivity).toolbar?.title = getString(R.string.choose_category)
 
         var  application = checkNotNull(this.activity).application
 

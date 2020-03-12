@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 
 class MainActivity : AppCompatActivity() {
@@ -19,16 +19,21 @@ class MainActivity : AppCompatActivity() {
         // set up back button via navigation controller
 
         val navController = Navigation.findNavController(this, R.id.myNavHostFragment)
-        NavigationUI.setupActionBarWithNavController(this, navController)
         val appBarConfiguration = AppBarConfiguration(navController.graph)
+
         findViewById<Toolbar>(R.id.toolbar)
             .setupWithNavController(navController, appBarConfiguration)
+        findViewById<Toolbar>(R.id.toolbar).inflateMenu(R.menu.main_menu)
+
+
+        findViewById<Toolbar>(R.id.toolbar).setOnMenuItemClickListener(Toolbar.OnMenuItemClickListener {
+
+            it.onNavDestinationSelected(navController) || super.onOptionsItemSelected(it)
+        })
     }
 
 
 
-
-     // navigate up
     override fun onSupportNavigateUp(): Boolean {
          return Navigation.findNavController(this, R.id.myNavHostFragment).navigateUp()
     }

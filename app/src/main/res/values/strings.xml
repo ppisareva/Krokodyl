@@ -6,10 +6,34 @@
     <string name="ready">увага</string>
     <string name="go">впере</string>
     <string name="no_internet">нема інтернету</string>
-    <string name="choose_category">виберіть категорию</string>
+    <string name="choose_category">категорії</string>
     <string name="score">результат</string>
-    <string name="no_text" />
     <string name="back">назад до списку</string>
     <string name="time_left">Залишилось</string>
-    <string name="set_timer">set</string>
+    <string name="set_timer">Задати таймер</string>
+    <string name="ten_sec">10 секунд</string>
+    <string name="thirty_sec">30 секунд</string>
+    <string name="one_minute">1 хвилина</string>
+    <string name="tree_minutes">3 хвилини</string>
+    <string name="one_minute_timer">таймер встановлено на 1 хилину</string>
+    <string name="timer">Таймер</string>
+    <string name="settings">налаштування</string>
+
+    <string-array name="timer_name">
+        <item>10 секунд</item>
+        <item>30 секунд</item>
+         <item>1 хвилину</item>
+        <item>2 хвилини</item>
+       <item>3 хвилини</item>
+    </string-array>
+
+    <string-array name="timer_value">
+        <item>10000</item>
+        <item>30000</item>
+        <item>60000</item>
+        <item>120000</item>
+        <item>180000</item>
+    </string-array>
+
+
 </resources>

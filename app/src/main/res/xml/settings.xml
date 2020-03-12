@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <ListPreference
+            app:key="timer_settings"
+            app:title="@string/timer"
+            app:summary="@string/one_minute_timer"
+            android:entries="@array/timer_name"
+            android:entryValues="@array/timer_value"/>
+
+
+
+</PreferenceScreen>

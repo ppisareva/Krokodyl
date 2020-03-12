@@ -8,6 +8,9 @@
               android:label="fragment_category_list" tools:layout="@layout/category_fragment">
 
         <action android:id="@+id/action_categoryFragment_to_gameFragment" app:destination="@id/gameFragment"/>
+        <action
+                android:id="@+id/action_categoryFragment_to_mySettingsFragment"
+                app:destination="@id/mySettingsFragment" />
 
     </fragment>
     <fragment android:id="@+id/gameFragment" android:name="com.example.krokodyl.game.GameFragment"
@@ -31,4 +34,8 @@
                 app:popUpTo="@+id/categoryFragment"/>
         <action android:id="@+id/action_scoreFragment_to_categoryFragment" app:destination="@id/categoryFragment"/>
     </fragment>
+    <fragment
+            android:id="@+id/mySettingsFragment"
+            android:name="com.example.krokodyl.MySettingsFragment"
+            android:label="MySettingsFragment" />
 </navigation>

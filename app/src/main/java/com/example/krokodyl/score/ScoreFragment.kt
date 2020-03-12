@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.example.krokodyl.R
 import com.example.krokodyl.databinding.ScoreFragmentBinding
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class ScoreFragment : Fragment() {
@@ -39,7 +40,7 @@ class ScoreFragment : Fragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ScoreViewModel::class.java)
         // bind xml with view to view model
         binding.scoreViewModel = viewModel
-        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.back)
+        (activity as AppCompatActivity).toolbar?.title = getString(R.string.back)
 
         // Specify the current activity as the lifecycle owner of the binding. This is used so that
         // the binding can observe LiveData updates
