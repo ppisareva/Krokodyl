@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import com.example.krokodyl.AppPreferences
 import com.example.krokodyl.R
 import com.example.krokodyl.model.Category
 import com.example.krokodyl.model.KrokodylDatabase
@@ -53,7 +54,6 @@ class GameViewModel(category : Category, application: Application) : AndroidView
 
      fun startReadyTimer(){
          eventStartTimer.value = true
-         Log.e("status1", "${attentionState.value}")
         timer = object : CountDownTimer(START_TIME, ONE_SECOND) {
             override fun onTick(millisUntilFinished: Long) {
                  when (millisUntilFinished/ ONE_SECOND) {
@@ -87,7 +87,8 @@ class GameViewModel(category : Category, application: Application) : AndroidView
 
 
     private fun startTimer(){
-        timer = object : CountDownTimer(COUNTDOWN_TIME, ONE_SECOND) {
+        Log.e("timer", "${AppPreferences.timer}")
+        timer = object : CountDownTimer(AppPreferences.timer, ONE_SECOND)  {
             override fun onTick(millisUntilFinished: Long) {
                 currentTimeSeconds.value = millisUntilFinished/ ONE_SECOND
             }

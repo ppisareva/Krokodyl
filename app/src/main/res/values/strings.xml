@@ -15,7 +15,7 @@
     <string name="thirty_sec">30 секунд</string>
     <string name="one_minute">1 хвилина</string>
     <string name="tree_minutes">3 хвилини</string>
-    <string name="one_minute_timer">таймер встановлено на 1 хилину</string>
+    <string name="timer_summery">таймер встановлено на </string>
     <string name="timer">Таймер</string>
     <string name="settings">налаштування</string>
 

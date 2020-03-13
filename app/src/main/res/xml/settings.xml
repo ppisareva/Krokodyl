@@ -6,7 +6,6 @@
     <ListPreference
             app:key="timer_settings"
             app:title="@string/timer"
-            app:summary="@string/one_minute_timer"
             android:entries="@array/timer_name"
             android:entryValues="@array/timer_value"/>
 

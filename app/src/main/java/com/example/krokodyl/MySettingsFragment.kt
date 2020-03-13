@@ -13,9 +13,11 @@ class MySettingsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.settings, rootKey)
         val timerPreference: ListPreference? = findPreference("timer_settings")
         (activity as AppCompatActivity).toolbar?.title = getString(R.string.settings)
+        timerPreference!!.summary = "${getString(R.string.timer_summery)} ${transferTime(AppPreferences.timer.toString())}"
 
-        timerPreference?.setOnPreferenceChangeListener({pref, newValue ->
-            pref.summary = "таймер встановлено на ${transferTime(newValue.toString())}"
+        timerPreference.setOnPreferenceChangeListener({pref, newValue ->
+            pref.summary = "${getString(R.string.timer_summery)} ${transferTime(newValue.toString())}"
+            AppPreferences.timer = newValue.toString().toLong()
             true
         })
 

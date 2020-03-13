@@ -6,12 +6,14 @@ import android.content.SharedPreferences
 object AppPreferences {
     private const val NAME = "krokodyl"
     private const val MODE = Context.MODE_PRIVATE
-    private const val PREF = "is_first_run"
+    private const val FIRST_RUN = "is_first_run"
+    private const val TIMER = "timer"
 
     private lateinit var preferences: SharedPreferences
 
     // list of app specific preferences
-    private val IS_FIRST_RUN_PREF = Pair(PREF, false)
+    private val IS_FIRST_RUN_PREF = Pair(FIRST_RUN, false)
+    private val TIMER_PREF = Pair(TIMER, 60000L)
 
     fun init(context: Context) {
         preferences = context.getSharedPreferences(NAME, MODE)
@@ -25,6 +27,12 @@ object AppPreferences {
         val editor = edit()
         operation(editor)
         editor.apply()
+    }
+
+    var timer : Long
+    get() = preferences.getLong(TIMER_PREF.first, TIMER_PREF.second)
+    set(value) = preferences.edit{
+        it.putLong(TIMER_PREF.first, value)
     }
 
     var firstRun: Boolean

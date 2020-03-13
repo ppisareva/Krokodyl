@@ -9,7 +9,6 @@
     <string name="no_internet">нема інтернету</string>
     <string name="choose_category">категорії</string>
     <string name="score">результат</string>
-    <string name="no_text" />
     <string name="back">назад до списку</string>
     <string name="time_left">Залишилось</string>
     <string name="set_timer">Задати таймер</string>
@@ -17,4 +16,8 @@
     <string name="thirty_sec">30 секунд</string>
     <string name="one_minute">1 хвилина</string>
     <string name="tree_minutes">3 хвилини</string>
+    <string name="timer_summery">таймер встановлено на </string>
+    <string name="timer">Таймер</string>
+    <string name="settings">налаштування</string>
+
 </resources>
