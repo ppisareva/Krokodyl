@@ -24,6 +24,7 @@ class GameViewModel(category : Category, application: Application) : AndroidView
     val eventStartTimer = MutableLiveData<Boolean>()
     val networkResult = MutableLiveData<Int>()
     val attentionState = MutableLiveData<Int>()
+    val changeColor = MutableLiveData<Long>()
 
     private var currentTimeSeconds = MutableLiveData<Long>()
     var score  = MutableLiveData<Int>()
@@ -52,21 +53,23 @@ class GameViewModel(category : Category, application: Application) : AndroidView
         }
     }
 
+
+
      fun startReadyTimer(){
          eventStartTimer.value = true
         timer = object : CountDownTimer(START_TIME, ONE_SECOND) {
             override fun onTick(millisUntilFinished: Long) {
                  when (millisUntilFinished/ ONE_SECOND) {
-                    ONE-> {
+                    ONE -> {
                         currentWord.value =  getApplication<Application>().applicationContext.getString(R.string.ready)
                         attentionState.value = READY
                         Log.e("status2", "${attentionState.value}")
                     }
-                    TWO-> {
-                        currentWord.value =  getApplication<Application>().applicationContext.getString(R.string.ready)
-                        attentionState.value = READY
-                        Log.e("status3", "${attentionState.value}")
-                    }
+                     TWO-> {
+                         currentWord.value =  getApplication<Application>().applicationContext.getString(R.string.ready)
+                         attentionState.value = READY
+                         Log.e("status2", "${attentionState.value}")
+                     }
                     else -> {
                         currentWord.value =  getApplication<Application>().applicationContext.getString(R.string.go)
                         attentionState.value = GO
@@ -91,6 +94,7 @@ class GameViewModel(category : Category, application: Application) : AndroidView
         timer = object : CountDownTimer(AppPreferences.timer, ONE_SECOND)  {
             override fun onTick(millisUntilFinished: Long) {
                 currentTimeSeconds.value = millisUntilFinished/ ONE_SECOND
+                changeColor.value = millisUntilFinished/ ONE_SECOND
             }
             override fun onFinish() {
                 eventGameFinish.value = true
@@ -134,6 +138,7 @@ class GameViewModel(category : Category, application: Application) : AndroidView
         const val START_TIME = 2000L
         const val ONE : Long = 1
         const val TWO : Long = 2
+        const val THREE : Long = 3
         const val READY = 1
         const val GO = 2
         const val GAME = 0

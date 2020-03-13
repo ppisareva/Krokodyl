@@ -1,6 +1,8 @@
 package com.example.krokodyl.game
 
 import android.annotation.SuppressLint
+import android.graphics.Color
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,19 +21,27 @@ import com.example.krokodyl.repository.GameRepository
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.game_fragment.*
 
+
 class GameFragment : Fragment()  {
 
     private lateinit var viewModel: GameViewModel
     private lateinit var viewModelFactory: GameViewModelFactory
     private lateinit var  binding : GameFragmentBinding
     private lateinit var category :Category
-
+    private lateinit var mp: MediaPlayer
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // binding data
         binding  = DataBindingUtil.inflate(inflater, R.layout.game_fragment, container, false)
         // get category selected from category fragment
         category = GameFragmentArgs.fromBundle(arguments!!).category
         Log.i("category Id ---", category.idCategory)
+        mp = MediaPlayer.create(context, R.raw.ending)
+
+        mp.setOnCompletionListener {
+            Navigation.findNavController(view!!)
+                .navigate(
+                    GameFragmentDirections.actionGameFragmentToScoreFragment(viewModel.score.value?:0, category)
+                ) }
         return binding.root
     }
 
@@ -61,12 +71,20 @@ class GameFragment : Fragment()  {
 
         })
 
+        viewModel.changeColor.observe(this, Observer { it ->
+            it?.let{
+               if(it<=5) {
+                   timer_tv.setTextColor(Color.RED)
+               }
+                if(it==0L) mp.start()
+            }
+        })
+
         viewModel.networkResult.observe(this, Observer { it->
             if(it == GameRepository.BAD_RESPONSE&&isListEmpty){
                 viewModel.currentWord.value = getString(R.string.no_internet)
             }
         })
-
 
         viewModel.eventStartTimer.observe(this, Observer { isStarted ->
             if(!isStarted){
@@ -102,10 +120,8 @@ class GameFragment : Fragment()  {
         viewModel.eventGameFinish.observe(this, Observer { isFinished ->
             if(isFinished){
                 viewModel.gameFinished()
-                Navigation.findNavController(view!!)
-                    .navigate(
-                        GameFragmentDirections.actionGameFragmentToScoreFragment(viewModel.score.value?:0, category)
-                    )
+               skip_button.visibility = View.INVISIBLE
+                next_button.visibility =View.INVISIBLE
             }
         })
 
