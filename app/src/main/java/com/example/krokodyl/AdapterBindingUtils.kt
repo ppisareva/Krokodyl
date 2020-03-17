@@ -1,11 +1,10 @@
-package com.example.krokodyl.category
+package com.example.krokodyl
 
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.krokodyl.R
 import com.example.krokodyl.model.Category
 import com.example.krokodyl.model.Word
 
@@ -36,6 +35,8 @@ import com.example.krokodyl.model.Word
 fun TextView.setWord(item: Word?) {
     item?.let {
         text = it.word
+        setTextColor( if(it.gussedStatus) resources.getColor(R.color.primaryColor)
+        else resources.getColor(R.color.secondaryDarkColor))
     }
 }
 

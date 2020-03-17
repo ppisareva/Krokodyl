@@ -74,7 +74,7 @@ class GameFragment : Fragment()  {
         viewModel.changeColor.observe(this, Observer { it ->
             it?.let{
                if(it<=5) {
-                   timer_tv.setTextColor(Color.RED)
+                   timer_tv.setTextColor(resources.getColor(R.color.secondaryDarkColor))
                }
                 if(it==0L) mp.start()
             }
@@ -101,16 +101,13 @@ class GameFragment : Fragment()  {
             var color = 0
             when(state){
                 GameViewModel.READY ->{
-                    color = R.color.ready
-                    guess_word_tv.setTextColor(Color.BLACK)
+                    color = R.color.secondaryLightColor
                 }
                 GameViewModel.GO ->{
-                    color = R.color.go
-                    guess_word_tv.setTextColor(Color.BLACK)
+                    color = R.color.primaryLightColor
                 }
                 GameViewModel.GAME ->{
                     color = android.R.color.transparent
-                    guess_word_tv.setTextColor(Color.GRAY)
                 }
                 else -> {
                     color = android.R.color.transparent

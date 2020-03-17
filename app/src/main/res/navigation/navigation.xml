@@ -41,5 +41,5 @@
     <fragment
             android:id="@+id/mySettingsFragment"
             android:name="com.example.krokodyl.MySettingsFragment"
-            android:label="MySettingsFragment" />
+            android:label="" />
 </navigation>
