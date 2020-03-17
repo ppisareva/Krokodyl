@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.krokodyl.R
 import com.example.krokodyl.databinding.ScoreFragmentBinding
 import kotlinx.android.synthetic.main.activity_main.*
@@ -35,9 +36,19 @@ class ScoreFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         val score = ScoreFragmentArgs.fromBundle(arguments!!).score
         val category = ScoreFragmentArgs.fromBundle(arguments!!).category
+        val words = ScoreFragmentArgs.fromBundle(arguments!!).listOfWords
+        Log.e("list of words", " size ${words.wordsList.size}")
         Log.i("score", score.toString())
         viewModelFactory = ScoreViewModelFactory(score)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ScoreViewModel::class.java)
+
+        // adapter
+        val adapter = WordRecyclerViewAdapter()
+        binding.listOfWords.adapter = adapter
+        val layoutManager = LinearLayoutManager(activity)
+        binding.listOfWords.layoutManager = layoutManager
+        adapter.data = words.wordsList
+
         // bind xml with view to view model
         binding.scoreViewModel = viewModel
         (activity as AppCompatActivity).toolbar?.title = getString(R.string.back)

@@ -7,6 +7,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.krokodyl.R
 import com.example.krokodyl.model.Category
+import com.example.krokodyl.model.Word
 
 @BindingAdapter("categoryTitle")
     fun TextView.setCategoryTitle(item: Category?) {
@@ -30,6 +31,20 @@ import com.example.krokodyl.model.Category
                 .into(imgView)
         }
     }
+
+@BindingAdapter("word")
+fun TextView.setWord(item: Word?) {
+    item?.let {
+        text = it.word
+    }
+}
+
+@BindingAdapter("guess")
+fun ImageView.setGuessed(item: Word?) {
+    item?.let {
+        setImageResource( if(it.gussedStatus) R.drawable.baseline_done_black else R.drawable.baseline_clear_black)
+    }
+}
 
 
 

@@ -24,4 +24,8 @@ fun toCategoryPropertyObject(category: DatabaseCategory):Category {
     return  Category(category.categoryId,category.title, category.image, category.words )
 }
 
+@Parcelize
+data class Word(var word: String, var gussedStatus : Boolean ) : Parcelable{}
 
+@Parcelize
+data class Words ( var wordsList : MutableList<Word>): Parcelable{}

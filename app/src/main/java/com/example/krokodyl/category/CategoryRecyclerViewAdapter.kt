@@ -2,7 +2,6 @@ package com.example.krokodyl.category
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.krokodyl.databinding.CategoryItemBinding
 import com.example.krokodyl.model.Category
@@ -57,18 +56,6 @@ class CategoryRecyclerViewAdapter (private val clickListener: OnCategoryClickLis
 
     }
 
- // class used to check if there any changes in date and redrew only changed items if they are on screen
-    class CategoryDiffCallback :
-        DiffUtil.ItemCallback<Category>() {
-        override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
-
-        override fun areContentsTheSame(oldItem: Category, newItem: Category): Boolean {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
-
-    }
 
 }
 

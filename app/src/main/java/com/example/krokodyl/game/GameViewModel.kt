@@ -11,6 +11,8 @@ import com.example.krokodyl.AppPreferences
 import com.example.krokodyl.R
 import com.example.krokodyl.model.Category
 import com.example.krokodyl.model.KrokodylDatabase
+import com.example.krokodyl.model.Word
+import com.example.krokodyl.model.Words
 import com.example.krokodyl.repository.GameRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,6 +32,7 @@ class GameViewModel(category : Category, application: Application) : AndroidView
     var score  = MutableLiveData<Int>()
     var currentWord = MutableLiveData<String>()
     private lateinit var listOfWords: List<String>
+    private lateinit var words: Words
 
 
 
@@ -45,6 +48,9 @@ class GameViewModel(category : Category, application: Application) : AndroidView
         DateUtils.formatElapsedTime(time)
     }
 
+    fun getWords ():Words{
+        return words
+    }
 
     init {
         uiScope.launch {
@@ -106,6 +112,7 @@ class GameViewModel(category : Category, application: Application) : AndroidView
 
     fun startGame(){
         startTimer()
+        words = Words(mutableListOf<Word>())
         listOfWords = currentCategory.value!!.listOfWordsCategory
         score.value = 0
         eventGameFinish.value = false
@@ -118,10 +125,12 @@ class GameViewModel(category : Category, application: Application) : AndroidView
 
     fun onNextWord(){
         score.value = score.value!!.plus(1)
+        words.wordsList.add(Word(currentWord.value.toString(), true ))
         nextWord()
     }
 
     fun onSkipWord(){
+        words.wordsList.add(Word(currentWord.value.toString(), false ))
         nextWord()
     }
 

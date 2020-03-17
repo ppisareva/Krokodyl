@@ -40,7 +40,7 @@ class GameFragment : Fragment()  {
         mp.setOnCompletionListener {
             Navigation.findNavController(view!!)
                 .navigate(
-                    GameFragmentDirections.actionGameFragmentToScoreFragment(viewModel.score.value?:0, category)
+                    GameFragmentDirections.actionGameFragmentToScoreFragment(viewModel.score.value?:0, viewModel.getWords(), category)
                 ) }
         return binding.root
     }
@@ -102,12 +102,15 @@ class GameFragment : Fragment()  {
             when(state){
                 GameViewModel.READY ->{
                     color = R.color.ready
+                    guess_word_tv.setTextColor(Color.BLACK)
                 }
                 GameViewModel.GO ->{
                     color = R.color.go
+                    guess_word_tv.setTextColor(Color.BLACK)
                 }
                 GameViewModel.GAME ->{
                     color = android.R.color.transparent
+                    guess_word_tv.setTextColor(Color.GRAY)
                 }
                 else -> {
                     color = android.R.color.transparent
@@ -115,6 +118,7 @@ class GameFragment : Fragment()  {
 
             }
             gameFragment_layout.setBackgroundColor(resources.getColor(color))
+
         })
 
         viewModel.eventGameFinish.observe(this, Observer { isFinished ->
