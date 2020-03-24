@@ -15,6 +15,7 @@ private const val BASE_URL = "https://13225fdf-167b-40b2-97dd-c8a2ba523242.mock.
 private val moshi= Moshi.Builder()
     .add(KotlinJsonAdapterFactory()).build()
 
+
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .addCallAdapterFactory(CoroutineCallAdapterFactory())
@@ -33,4 +34,5 @@ object KrokodylAPI {
     val retrofitService : KrokodylAPIService by lazy {
         retrofit.create(KrokodylAPIService::class.java)
     }
+    val getMoshi = moshi
 }

@@ -2,9 +2,7 @@ package com.example.krokodyl.category
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -15,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.krokodyl.R
 import com.example.krokodyl.databinding.CategoryFragmentBinding
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 // todo first open app slow, changing category order
 class CategoryFragment : Fragment() {
@@ -33,6 +32,7 @@ class CategoryFragment : Fragment() {
             false
         )
         (activity as AppCompatActivity).toolbar?.title = getString(R.string.choose_category)
+        (activity as AppCompatActivity).toolbar?.menu?.findItem(R.id.action_categoryFragment_to_mySettingsFragment)!!.setVisible(true)
 
         var  application = checkNotNull(this.activity).application
 
@@ -66,15 +66,9 @@ class CategoryFragment : Fragment() {
                        CategoryFragmentDirections.actionCategoryFragmentToGameFragment(it))
                 viewModel.navigationFinished()
             }
-
         })
-
-
-
 
         return binding.root
     }
-
-
 
 }

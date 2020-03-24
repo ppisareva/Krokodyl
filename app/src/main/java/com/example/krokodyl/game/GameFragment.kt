@@ -1,19 +1,19 @@
 package com.example.krokodyl.game
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.example.krokodyl.R
 import com.example.krokodyl.databinding.GameFragmentBinding
 import com.example.krokodyl.model.Category
@@ -58,7 +58,10 @@ class GameFragment : Fragment()  {
         binding.gameViewModel = viewModel
         binding.lifecycleOwner = this
         (activity as AppCompatActivity).toolbar?.title = category.nameCategory
-        setHasOptionsMenu(true)
+
+
+        (activity as AppCompatActivity).toolbar?.menu?.findItem(R.id.action_categoryFragment_to_mySettingsFragment)!!.setVisible(false)
+
 
         viewModel.currentCategory.observe(this, Observer {it ->
            it?.let {
@@ -70,6 +73,7 @@ class GameFragment : Fragment()  {
            }
 
         })
+
 
         viewModel.changeColor.observe(this, Observer { it ->
             it?.let{
@@ -127,6 +131,12 @@ class GameFragment : Fragment()  {
         })
 
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.noitem, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
 
 
 }

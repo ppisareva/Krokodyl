@@ -1,12 +1,18 @@
 package com.example.krokodyl.repository
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.krokodyl.model.*
 import com.example.krokodyl.network.KrokodylAPI
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.lang.reflect.Type
 
 class CategoryRepository(private val categoryDAO: DatabaseDao) {
     // category fragment Database Format to Application Object
@@ -34,12 +40,30 @@ class CategoryRepository(private val categoryDAO: DatabaseDao) {
     }
 
 
-    suspend fun firstInit() {
-       if(categoryDAO.getAll().value.isNullOrEmpty()){
-           Log.e("first init", "download from API" )
-           getDataFromAPI()
-       }
+    suspend fun firstInit(ap : Application) {
+        // read from file
+        val file_name = "category.txt"
+        val json_string = ap.assets.open(file_name).bufferedReader().use{
+            it.readText()
+        }
+        Log.e("file" ,json_string)
+        // convert to object
+        val listType = Types.newParameterizedType(List::class.java, CategoryFromAPI::class.java)
+        val adapter: JsonAdapter<List<CategoryFromAPI>> = KrokodylAPI.getMoshi.adapter(listType)
+        val result = adapter.fromJson(json_string)
+        Log.e("file" ,result!!.size.toString())
+        // read to database
+        try{
+        withContext(Dispatchers.IO) {
+            updateDB(result)
+            "Success: ${result.size} Category properties retrieved"
+        }
+    } catch (e: Exception) {
+        "Failure: ${e.message}"
     }
+
+    }
+
 
     suspend fun refreshCategory() {
         getDataFromAPI()

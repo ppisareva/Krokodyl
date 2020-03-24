@@ -24,15 +24,12 @@ class CategoryViewModel ( application: Application
     var repository: CategoryRepository = CategoryRepository(database)
 
     init {
-
         viewModelScope.launch {
             if (!AppPreferences.firstRun) {
                 AppPreferences.firstRun = true
                 Log.d("firstInit", "The value of our pref is: ${AppPreferences.firstRun}")
-                repository.firstInit()
-
+                repository.firstInit(application)
             }
-
         }
     }
 

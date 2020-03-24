@@ -52,6 +52,9 @@ class ScoreFragment : Fragment() {
         // bind xml with view to view model
         binding.scoreViewModel = viewModel
         (activity as AppCompatActivity).toolbar?.title = getString(R.string.back)
+        (activity as AppCompatActivity).toolbar?.menu?.findItem(R.id.action_categoryFragment_to_mySettingsFragment)!!.setVisible(false)
+
+
 
         // Specify the current activity as the lifecycle owner of the binding. This is used so that
         // the binding can observe LiveData updates
