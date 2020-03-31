@@ -12,6 +12,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.krokodyl.R
 import com.example.krokodyl.databinding.CategoryFragmentBinding
+import com.example.krokodyl.model.Words
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -61,9 +62,10 @@ class CategoryFragment : Fragment() {
             // if category !=null than do what after let
            Log.i("Navigation", " to fragment game with category $category")
             category?.let{
+                val words:Words = Words(mutableListOf(), mutableListOf())
                 Navigation.findNavController(binding.root)
                     .navigate(
-                       CategoryFragmentDirections.actionCategoryFragmentToGameFragment(it))
+                       CategoryFragmentDirections.actionCategoryFragmentToGameFragment(it, words))
                 viewModel.navigationFinished()
             }
         })

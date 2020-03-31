@@ -1,12 +1,13 @@
 package com.example.krokodyl.repository
 
+import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.example.krokodyl.model.Category
-import com.example.krokodyl.model.DatabaseDao
-import com.example.krokodyl.model.toCategoryPropertyObject
-import com.example.krokodyl.model.toDatabaseObject
+import com.example.krokodyl.model.*
 import com.example.krokodyl.network.KrokodylAPI
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Types
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -36,7 +37,8 @@ class GameRepository(private val categoryDAO: DatabaseDao, val category: Categor
                        KrokodylAPI.retrofitService.getWordsListByCategory(category.idCategory).await()
 
                 withContext(Dispatchers.IO) {
-                    categoryDAO.insert(toDatabaseObject(category))
+
+                  updateDB(category)
 
                 }
                 return GOOD_RESPONSE
@@ -48,6 +50,35 @@ class GameRepository(private val categoryDAO: DatabaseDao, val category: Categor
         }
 
 
+    suspend fun getFromFile(ap : Application, category: Category){
+        val file_name = "category${category.idCategory}.txt"
+        val json_string = ap.assets.open(file_name).bufferedReader().use{
+            it.readText()
+        }
+        Log.e("file" ,json_string)
+        // convert to object
+        val listType = Types.newParameterizedType(List::class.java, String::class.java)
+        val adapter: JsonAdapter<List<String>> = KrokodylAPI.getMoshi.adapter(listType)
+        val result = adapter.fromJson(json_string)
+
+        Log.e("file" ,result!!.size.toString())
+        // write to database
+        try{
+            withContext(Dispatchers.IO) {
+                category.listOfWordsCategory=result
+                updateDB(category)
+                "Success: ${result.size} Category properties retrieved"
+            }
+        } catch (e: Exception) {
+            "Failure: ${e.message}"
+        }
+
     }
+
+    private fun updateDB(category: Category) {
+        categoryDAO.insert(toDatabaseObject(category))
+    }
+
+}
 
 

@@ -26,22 +26,18 @@ class CategoryRepository(private val categoryDAO: DatabaseDao) {
         return categoryList
     }
 
+    suspend fun firstInit(ap : Application) {
+        getFromFile(ap)
 
-    private fun updateDB(category: List<CategoryFromAPI>) {
-        for (c in category) {
-            categoryDAO.insert(
-                DatabaseCategory(
-                    categoryId = c.id,
-                    title = c.title,
-                    image = c.image
-                )
-            )
-        }
     }
 
 
-    suspend fun firstInit(ap : Application) {
-        // read from file
+    suspend fun refreshCategory() {
+        getDataFromAPI()
+    }
+
+
+    suspend fun getFromFile(ap : Application){
         val file_name = "category.txt"
         val json_string = ap.assets.open(file_name).bufferedReader().use{
             it.readText()
@@ -54,19 +50,14 @@ class CategoryRepository(private val categoryDAO: DatabaseDao) {
         Log.e("file" ,result!!.size.toString())
         // read to database
         try{
-        withContext(Dispatchers.IO) {
-            updateDB(result)
-            "Success: ${result.size} Category properties retrieved"
+            withContext(Dispatchers.IO) {
+                updateDB(result)
+                "Success: ${result.size} Category properties retrieved"
+            }
+        } catch (e: Exception) {
+            "Failure: ${e.message}"
         }
-    } catch (e: Exception) {
-        "Failure: ${e.message}"
-    }
 
-    }
-
-
-    suspend fun refreshCategory() {
-        getDataFromAPI()
     }
 
     suspend fun getDataFromAPI (){
@@ -82,11 +73,16 @@ class CategoryRepository(private val categoryDAO: DatabaseDao) {
         }
     }
 
-
-
-
-
-
-
+    private fun updateDB(category: List<CategoryFromAPI>) {
+        for (c in category) {
+            categoryDAO.insert(
+                DatabaseCategory(
+                    categoryId = c.id,
+                    title = c.title,
+                    image = c.image
+                )
+            )
+        }
+    }
 }
 

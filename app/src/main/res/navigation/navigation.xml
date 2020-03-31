@@ -18,6 +18,10 @@
         <argument
                 android:name="category"
                 app:argType="com.example.krokodyl.model.Category" />
+        <argument
+                android:name="list_of_words"
+                app:argType="com.example.krokodyl.model.Words"
+                />
 
         <action android:id="@+id/action_gameFragment_to_scoreFragment" app:destination="@id/scoreFragment"
                 app:popUpTo="@+id/categoryFragment" app:launchSingleTop="true"/>

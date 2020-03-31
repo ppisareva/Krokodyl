@@ -23,9 +23,9 @@ fun toDatabaseObject(category: Category): DatabaseCategory{
 fun toCategoryPropertyObject(category: DatabaseCategory):Category {
     return  Category(category.categoryId,category.title, category.image, category.words )
 }
-
+// need to pass list of words within fragments
 @Parcelize
 data class Word(var word: String, var gussedStatus : Boolean ) : Parcelable{}
 
 @Parcelize
-data class Words ( var wordsList : MutableList<Word>): Parcelable{}
+data class Words ( var wordsList : MutableList<Word>, var remainedListOfIndexes: MutableList<Int>): Parcelable{}

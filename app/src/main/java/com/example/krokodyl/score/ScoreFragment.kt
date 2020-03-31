@@ -62,9 +62,10 @@ class ScoreFragment : Fragment() {
 
         viewModel.eventNewGame.observe(this, Observer { starNewGame ->
             if(starNewGame){
+                words.wordsList = mutableListOf()
                 Navigation.findNavController(view!!)
                     .navigate(
-                        ScoreFragmentDirections.actionScoreFragmentToGameFragment(category))
+                        ScoreFragmentDirections.actionScoreFragmentToGameFragment(category, words))
                 viewModel.onEventStartNewGameEnded()
             }
         })

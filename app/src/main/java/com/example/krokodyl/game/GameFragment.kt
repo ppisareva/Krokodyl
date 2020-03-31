@@ -17,6 +17,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.krokodyl.R
 import com.example.krokodyl.databinding.GameFragmentBinding
 import com.example.krokodyl.model.Category
+import com.example.krokodyl.model.Words
 import com.example.krokodyl.repository.GameRepository
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.game_fragment.*
@@ -28,12 +29,14 @@ class GameFragment : Fragment()  {
     private lateinit var viewModelFactory: GameViewModelFactory
     private lateinit var  binding : GameFragmentBinding
     private lateinit var category :Category
+    private lateinit var listofWords :Words
     private lateinit var mp: MediaPlayer
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // binding data
         binding  = DataBindingUtil.inflate(inflater, R.layout.game_fragment, container, false)
         // get category selected from category fragment
         category = GameFragmentArgs.fromBundle(arguments!!).category
+        listofWords = GameFragmentArgs.fromBundle(arguments!!).listOfWords
         Log.i("category Id ---", category.idCategory)
         mp = MediaPlayer.create(context, R.raw.ending)
 
@@ -53,7 +56,7 @@ class GameFragment : Fragment()  {
         var isListEmpty = true
         var isFirstLoad = true
         var  application = checkNotNull(this.activity).application
-        viewModelFactory = GameViewModelFactory(category, application)
+        viewModelFactory = GameViewModelFactory(category, application, listofWords)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
         binding.gameViewModel = viewModel
         binding.lifecycleOwner = this
@@ -80,13 +83,13 @@ class GameFragment : Fragment()  {
                if(it<=5) {
                    timer_tv.setTextColor(resources.getColor(R.color.secondaryDarkColor))
                }
-                if(it==0L) mp.start()
+                if(it==0L) viewModel.endOfTimer()
             }
         })
 
         viewModel.networkResult.observe(this, Observer { it->
             if(it == GameRepository.BAD_RESPONSE&&isListEmpty){
-                viewModel.currentWord.value = getString(R.string.no_internet)
+                viewModel.getWordsFromFile()
             }
         })
 
@@ -127,6 +130,7 @@ class GameFragment : Fragment()  {
                 viewModel.gameFinished()
                skip_button.visibility = View.INVISIBLE
                 next_button.visibility =View.INVISIBLE
+                mp.start()
             }
         })
 
