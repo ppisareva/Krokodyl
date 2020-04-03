@@ -8,12 +8,14 @@ object AppPreferences {
     private const val MODE = Context.MODE_PRIVATE
     private const val FIRST_RUN = "is_first_run"
     private const val TIMER = "timer"
+    private const val TEAM ="team"
 
     private lateinit var preferences: SharedPreferences
 
     // list of app specific preferences
     private val IS_FIRST_RUN_PREF = Pair(FIRST_RUN, false)
     private val TIMER_PREF = Pair(TIMER, 60000L)
+    private val TEAM_PREF = Pair(TEAM, 1)
 
     fun init(context: Context) {
         preferences = context.getSharedPreferences(NAME, MODE)
@@ -34,6 +36,12 @@ object AppPreferences {
     set(value) = preferences.edit{
         it.putLong(TIMER_PREF.first, value)
     }
+
+    var team : Int
+        get() = preferences.getInt(TEAM_PREF.first, TEAM_PREF.second)
+        set(value) = preferences.edit{
+            it.putInt(TEAM_PREF.first, value)
+        }
 
     var firstRun: Boolean
         // custom getter to get a preference of a desired type, with a predefined default value

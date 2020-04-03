@@ -8,6 +8,9 @@ class ScoreViewModel(scoreOfGame : Int) : ViewModel() {
      val score = MutableLiveData<Int>()
      val eventNewGame  = MutableLiveData<Boolean>()
     val eventToCategory = MutableLiveData<Boolean>()
+    val teamOne = MutableLiveData<String>()
+    val teamTwo = MutableLiveData<String>()
+    val teamThree = MutableLiveData<String>()
 
     init {
         score.value = scoreOfGame

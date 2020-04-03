@@ -17,6 +17,7 @@
     <string name="tree_minutes">3 хвилини</string>
     <string name="timer_summery">таймер встановлено на </string>
     <string name="timer">Таймер</string>
+    <string name="team">Кількість команд</string>
     <string name="settings">налаштування</string>
 
     <string-array name="timer_name">
@@ -35,5 +36,16 @@
         <item>180000</item>
     </string-array>
 
+    <string-array name="team_name">
+        <item>кожен сам за себе</item>
+        <item>2 команди</item>
+        <item>3 команди</item>
+    </string-array>
+
+    <string-array name="team_value">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
 
 </resources>

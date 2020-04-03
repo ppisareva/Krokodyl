@@ -14,7 +14,9 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.krokodyl.R
 import com.example.krokodyl.databinding.ScoreFragmentBinding
+import com.example.krokodyl.model.Team
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.score_fragment.*
 
 
 class ScoreFragment : Fragment() {
@@ -37,6 +39,7 @@ class ScoreFragment : Fragment() {
         val score = ScoreFragmentArgs.fromBundle(arguments!!).score
         val category = ScoreFragmentArgs.fromBundle(arguments!!).category
         val words = ScoreFragmentArgs.fromBundle(arguments!!).listOfWords
+        val teams = words.listOfTeam
         Log.e("list of words", " size ${words.wordsList.size}")
         Log.i("score", score.toString())
         viewModelFactory = ScoreViewModelFactory(score)
@@ -48,7 +51,7 @@ class ScoreFragment : Fragment() {
         val layoutManager = LinearLayoutManager(activity)
         binding.listOfWords.layoutManager = layoutManager
         adapter.data = words.wordsList
-
+       checkNumberOfTeams(teams)
         // bind xml with view to view model
         binding.scoreViewModel = viewModel
         (activity as AppCompatActivity).toolbar?.title = getString(R.string.back)
@@ -76,6 +79,21 @@ class ScoreFragment : Fragment() {
                 viewModel.onReturnToCategoryEventEnded()
             }
         })
+
+    }
+
+    private fun checkNumberOfTeams(teams:MutableList<Team>) {
+        if(teams.size >0){
+            team_score_ll.visibility = View.VISIBLE
+            viewModel.teamOne.value = "Команда 1: ${teams[0].teamScore}"
+            viewModel.teamTwo.value = "Команда 2: ${teams[1].teamScore}"
+            if(teams.size==2){
+                team_three.visibility = View.GONE
+            } else
+            {
+                viewModel.teamThree.value = "Команда 3: ${teams[2].teamScore}"
+            }
+        }
 
     }
 

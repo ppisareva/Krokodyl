@@ -9,6 +9,12 @@
             android:entries="@array/timer_name"
             android:entryValues="@array/timer_value"/>
 
+    <ListPreference
+            app:key="team_settings"
+            app:title="@string/team"
+            android:entries="@array/team_name"
+            android:entryValues="@array/team_value"/>
+
 
 
 </PreferenceScreen>

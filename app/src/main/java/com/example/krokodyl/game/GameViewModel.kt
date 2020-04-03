@@ -111,7 +111,7 @@ class GameViewModel(var category : Category, application: Application, var listO
                 changeColor.value = millisUntilFinished/ ONE_SECOND
             }
             override fun onFinish() {
-                eventGameFinish.value = true
+                endOfGame()
             }
         }
         timer.start()
@@ -155,8 +155,10 @@ class GameViewModel(var category : Category, application: Application, var listO
         eventGameFinish.value = false
     }
 
-    fun endOfTimer(){
+    fun endOfGame(){
+        Log.i("trigger " , "Game end")
         eventGameFinish.value = true
+        score.value?.let { checkForTeamScore(it) }
     }
 
     fun  chackIfListOfIndexesNotEmpty(){
@@ -168,6 +170,22 @@ class GameViewModel(var category : Category, application: Application, var listO
 
         }
     }
+
+    fun checkForTeamScore(score : Int){
+        if(words.listOfTeam.isNotEmpty()){
+            if(words.listOfTeam.size==words.currentTeamPlaying){
+                words.currentTeamPlaying = 0
+            }
+            Log.i("number of teams" ,"${words.listOfTeam.size}")
+            Log.i("current team" , "${words.currentTeamPlaying}")
+            words.listOfTeam[words.currentTeamPlaying].teamScore += score
+            words.currentTeamPlaying++
+
+        }
+
+
+    }
+
 
     fun nextIndex():Int{
         if(words.remainedListOfIndexes.size>0){

@@ -10,8 +10,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.krokodyl.AppPreferences
 import com.example.krokodyl.R
 import com.example.krokodyl.databinding.CategoryFragmentBinding
+import com.example.krokodyl.model.Team
 import com.example.krokodyl.model.Words
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -62,7 +64,9 @@ class CategoryFragment : Fragment() {
             // if category !=null than do what after let
            Log.i("Navigation", " to fragment game with category $category")
             category?.let{
-                val words:Words = Words(mutableListOf(), mutableListOf())
+
+
+                val words:Words = Words(mutableListOf(), mutableListOf(), getTeams(), 0)
                 Navigation.findNavController(binding.root)
                     .navigate(
                        CategoryFragmentDirections.actionCategoryFragmentToGameFragment(it, words))
@@ -71,6 +75,19 @@ class CategoryFragment : Fragment() {
         })
 
         return binding.root
+    }
+
+    fun getTeams(): MutableList<Team>{
+       val teams =  AppPreferences.team
+        val team1 =  Team(1, 0)
+        val team2 =  Team(2, 0)
+        val team3 =  Team(3, 0)
+        when(teams) {
+            1 -> return mutableListOf<Team>()
+            2 -> return mutableListOf(team1, team2)
+            3 -> return mutableListOf(team1,team2,team3)
+            else -> return mutableListOf<Team>()
+        }
     }
 
 }

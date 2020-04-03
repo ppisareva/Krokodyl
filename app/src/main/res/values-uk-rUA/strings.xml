@@ -18,6 +18,8 @@
     <string name="tree_minutes">3 хвилини</string>
     <string name="timer_summery">таймер встановлено на </string>
     <string name="timer">Таймер</string>
+    <string name="team">Кількість команд</string>
     <string name="settings">налаштування</string>
+
 
 </resources>
